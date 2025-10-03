@@ -43,15 +43,15 @@ const Login = () => {
     const newErrors = {};
 
     if (!formValues.email.trim()) {
-      newErrors.email = 'Ingres· tu email.';
+      newErrors.email = 'Ingrese su email.';
     } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/i.test(formValues.email.trim())) {
-      newErrors.email = 'Email inv·lido.';
+      newErrors.email = 'Email inv√°lido.';
     }
 
     if (!formValues.password.trim()) {
-      newErrors.password = 'Ingres· tu contraseÒa.';
+      newErrors.password = 'Ingrese su contrase√±a.';
     } else if (formValues.password.trim().length < 6) {
-      newErrors.password = 'La contraseÒa debe tener al menos 6 caracteres.';
+      newErrors.password = 'La contrase√±a debe tener al menos 6 caracteres.';
     }
 
     setErrors(newErrors);
@@ -99,7 +99,7 @@ const Login = () => {
     >
       <AuthCard
         title="Acceso profesional"
-        subtitle="Ingres· con tus credenciales para administrar turnos y obras sociales."
+        subtitle="Ingrese con sus credenciales para administrar turnos y obras sociales."
       >
         <Stack component="form" spacing={3} onSubmit={handleSubmit} noValidate>
           <TextField
@@ -115,7 +115,7 @@ const Login = () => {
             autoComplete="email"
           />
           <TextField
-            label="ContraseÒa"
+            label="Contrase√±a"
             name="password"
             type="password"
             fullWidth
@@ -134,7 +134,7 @@ const Login = () => {
               Volver al inicio
             </Link>
             <Link component="button" type="button" underline="hover" color="text.secondary" sx={{ cursor: 'pointer' }}>
-              OlvidÈ mi contraseÒa
+              Olvid√© mi contrase√±a
             </Link>
           </Stack>
         </Stack>
@@ -147,7 +147,7 @@ const Login = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert severity="error" variant="filled" onClose={handleSnackbarClose}>
-          Credenciales inv·lidas.
+          Credenciales inv√°lidas.
         </Alert>
       </Snackbar>
     </Box>

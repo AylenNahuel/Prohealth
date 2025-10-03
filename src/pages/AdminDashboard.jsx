@@ -74,7 +74,7 @@ const AdminDashboard = () => {
   const stats = [
     { key: 'solicitadas', label: 'Solicitadas (semana)', value: solicitadasSemana, color: 'primary' },
     { key: 'confirmadas', label: 'Confirmadas (semana)', value: confirmadasSemana, color: 'secondary' },
-    { key: 'proximas', label: 'Pr髕imas (hoy)', value: proximasHoy, color: 'warning' },
+    { key: 'proximas', label: 'Pr贸ximas (hoy)', value: proximasHoy, color: 'warning' },
   ];
 
   return (
@@ -85,7 +85,7 @@ const AdminDashboard = () => {
             Resumen operativo
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Datos actualizados de tus turnos para tomar acci髇 r醦idamente.
+            Datos actualizados de tus turnos para tomar acci贸n r谩pidamente.
           </Typography>
         </Box>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
@@ -143,10 +143,10 @@ const AdminDashboard = () => {
         >
           <Box>
             <Typography variant="h6" fontWeight={600}>
-              Pr髕imos turnos
+              Pr贸ximos turnos
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Los pr髕imos turnos ordenados por fecha.
+              Los pr贸ximos turnos ordenados por fecha.
             </Typography>
           </Box>
           <Button variant="text" onClick={() => navigate('/admin/appointments')}>
@@ -184,7 +184,7 @@ const AdminDashboard = () => {
                 <TableRow>
                   <TableCell colSpan={4} align="center">
                     <Typography variant="body2" color="text.secondary">
-                      No hay turnos pr髕imos programados.
+                      No hay turnos pr贸ximos programados.
                     </Typography>
                   </TableCell>
                 </TableRow>

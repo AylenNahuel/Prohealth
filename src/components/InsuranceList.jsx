@@ -4,7 +4,7 @@ const insurances = [
   'OSDE',
   'Swiss Medical',
   'Galeno',
-  'Medifé',
+  'MedifÃ©',
   'Hospital Italiano',
   'OMINT',
   'Sancor Salud',
@@ -18,7 +18,7 @@ const InsuranceList = () => (
         Obras Sociales
       </Typography>
       <Typography variant="body1" color="text.secondary" textAlign="center" sx={{ maxWidth: 560, mx: 'auto', mb: 4 }}>
-        Trabajamos con las principales obras sociales y prepagas para que puedas acceder a tu consulta sin complicaciones.
+        Trabajo con las principales obras sociales y prepagas para que puedas acceder a tu consulta sin complicaciones.
       </Typography>
       <Stack
         direction="row"

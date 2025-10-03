@@ -60,7 +60,7 @@ const AdminLayout = () => {
           ProHealth Admin
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Gestión integral de turnos
+          GestiÃ³n integral de turnos
         </Typography>
       </Box>
       <Divider />
@@ -83,7 +83,7 @@ const AdminLayout = () => {
           <ListItemIcon sx={{ minWidth: 40 }}>
             <LogoutIcon color="error" />
           </ListItemIcon>
-          <ListItemText primary="Cerrar sesión" primaryTypographyProps={{ color: 'error' }} />
+          <ListItemText primary="Cerrar sesiÃ³n" primaryTypographyProps={{ color: 'error' }} />
         </ListItemButton>
       </List>
     </Box>

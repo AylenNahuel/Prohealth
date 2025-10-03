@@ -8,22 +8,22 @@ import VaccinesIcon from '@mui/icons-material/Vaccines';
 const services = [
   {
     title: 'Consultas integrales',
-    description: 'Evaluaci髇 cl韓ica completa, seguimiento de enfermedades cr髇icas y chequeos preventivos.',
+    description: 'Evaluacion clinica completa, seguimiento de enfermedades cronicas y chequeos preventivos.',
     icon: MedicalServicesIcon,
   },
   {
-    title: 'Diagn髎tico temprano',
-    description: 'Interpretaci髇 de estudios, an醠isis de laboratorio y coordinaci髇 con especialistas.',
+    title: 'Diagn贸stico temprano',
+    description: 'Interpretaci贸n de estudios, an谩lisis de laboratorio y coordinaci贸n conmigo.',
     icon: ScienceIcon,
   },
   {
     title: 'Tratamientos personalizados',
-    description: 'Planes terap閡ticos adaptados a cada paciente con enfoque multidisciplinario.',
+    description: 'Planes terap茅uticos adaptados a cada paciente con enfoque multidisciplinario.',
     icon: HealingIcon,
   },
   {
-    title: 'Vacunaci髇 y prevenci髇',
-    description: 'Calendario de vacunas adultos, control de factores de riesgo y educaci髇 sanitaria.',
+    title: 'Prevenci贸n de enfermedades',
+    description: 'Calendario de vacunas adultos, control de factores de riesgo y educaci贸n sanitaria.',
     icon: VaccinesIcon,
   },
 ];
@@ -35,7 +35,7 @@ const Services = () => (
         Servicios
       </Typography>
       <Typography variant="body1" color="text.secondary" textAlign="center" sx={{ maxWidth: 600, mx: 'auto', mb: 6 }}>
-        Brindamos una atenci髇 integral, cercana y basada en evidencia para acompa馻rte en todas las etapas de tu cuidado.
+        Te brindo una atenci贸n integral, cercana y basada en evidencia para acompa帽arte en todas las etapas de tu cuidado.
       </Typography>
       <Grid container spacing={3}>
         {services.map((service) => {

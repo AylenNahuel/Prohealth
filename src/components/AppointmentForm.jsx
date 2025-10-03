@@ -49,31 +49,31 @@ const AppointmentForm = ({ onBooked }) => {
     const newErrors = {};
     const trimmedName = formValues.patientName.trim();
     if (!trimmedName || trimmedName.length < 3) {
-      newErrors.patientName = 'Ingresá un nombre válido (mínimo 3 caracteres).';
+      newErrors.patientName = 'Ingrese un nombre vÃ¡lido (mÃ­nimo 3 caracteres).';
     }
 
     if (!formValues.phone.trim()) {
-      newErrors.phone = 'Ingresá un teléfono válido.';
+      newErrors.phone = 'Ingrese un telÃ©fono vÃ¡lido.';
     } else if (!/^[0-9+]+$/.test(formValues.phone.trim()) || formValues.phone.replace(/\D/g, '').length < 8) {
-      newErrors.phone = 'Solo números (o +) y mínimo 8 dígitos.';
+      newErrors.phone = 'Solo nÃºmeros (o +) y mÃ­nimo 8 dÃ­gitos.';
     }
 
     if (!formValues.email.trim()) {
-      newErrors.email = 'Ingresá un email.';
+      newErrors.email = 'Ingrese un email.';
     } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/i.test(formValues.email.trim())) {
-      newErrors.email = 'Ingresá un email válido.';
+      newErrors.email = 'Ingrese un email vÃ¡lido.';
     }
 
     if (!formValues.insurance) {
-      newErrors.insurance = 'Seleccioná una obra social.';
+      newErrors.insurance = 'Seleccione una obra social.';
     }
 
     if (!selectedSlot) {
-      newErrors.slot = 'Seleccioná un horario disponible.';
+      newErrors.slot = 'Seleccione un horario disponible.';
     } else {
       const slotDate = dayjs(selectedSlot);
       if (!slotDate.isValid() || slotDate.valueOf() < dayjs().valueOf()) {
-        newErrors.slot = 'El turno seleccionado ya no está disponible.';
+        newErrors.slot = 'El turno seleccionado ya no estÃ¡ disponible.';
       }
     }
 
@@ -89,7 +89,7 @@ const AppointmentForm = ({ onBooked }) => {
     }
 
     const patientEmail = formValues.email.trim();
-    showNotification('Turno solicitado. Recibirás un correo de confirmación.', 'success');
+    showNotification('Turno solicitado. RecibirÃ¡s un correo de confirmaciÃ³n.', 'success');
     setEmailInfo(`Email enviado a ${patientEmail}`);
     onBooked?.({
       ...formValues,
@@ -122,7 +122,7 @@ const AppointmentForm = ({ onBooked }) => {
             Reservar turno
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Elegí el día y horario disponibles, completá tus datos y nos comunicaremos para confirmar el turno.
+            Elige el dÃ­a y horario disponibles, completa tus datos y nos comunicaremos para confirmar el turno.
           </Typography>
         </Box>
 
@@ -153,27 +153,27 @@ const AppointmentForm = ({ onBooked }) => {
             <TextField
               fullWidth
               required
-              label="Teléfono"
+              label="TelÃ©fono"
               name="phone"
               value={formValues.phone}
               onChange={handleChange}
               error={Boolean(errors.phone)}
               helperText={errors.phone}
-              inputProps={{ inputMode: 'tel', 'aria-label': 'Teléfono de contacto' }}
+              inputProps={{ inputMode: 'tel', 'aria-label': 'TelÃ©fono de contacto' }}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
               required
-              label="Correo electrónico"
+              label="Correo electrÃ³nico"
               name="email"
               type="email"
               value={formValues.email}
               onChange={handleChange}
               error={Boolean(errors.email)}
               helperText={errors.email}
-              inputProps={{ 'aria-label': 'Correo electrónico' }}
+              inputProps={{ 'aria-label': 'Correo electrÃ³nico' }}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
@@ -212,7 +212,7 @@ const AppointmentForm = ({ onBooked }) => {
               label="Horario elegido"
               value={selectedSlotLabel}
               InputProps={{ readOnly: true }}
-              placeholder="Seleccioná un horario en la turnera"
+              placeholder="Seleccione un horario en la turnera"
             />
           </Grid>
           <Grid size={12}>
