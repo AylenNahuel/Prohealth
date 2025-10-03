@@ -127,7 +127,7 @@ const AdminInsurances = () => {
         <Paper sx={{ p: { xs: 2, md: 3 } }}>
           {noResults ? (
             <Alert severity={noData ? 'warning' : 'info'}>
-              {noData ? 'No hay obras sociales cargadas. Cre· la primera.' : 'No encontramos obras sociales con ese criterio.'}
+              {noData ? 'No hay obras sociales cargadas. Cre√° la primera.' : 'No encontramos obras sociales con ese criterio.'}
             </Alert>
           ) : (
             <TableContainer>
@@ -201,7 +201,7 @@ const AdminInsurances = () => {
         onCancel={() => setConfirmId(null)}
         onConfirm={handleDeleteConfirm}
         title="Eliminar obra social"
-        description={`øEliminar obra social "${insurances.find((item) => item.id === confirmId)?.nombre || ''}"?`}
+        description={`Eliminar obra social "${insurances.find((item) => item.id === confirmId)?.nombre || ''}"?`}
       />
 
       <Snackbar

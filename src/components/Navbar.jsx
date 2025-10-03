@@ -85,7 +85,7 @@ const Navbar = () => {
             </Button>
           </Stack>
         ) : (
-          <IconButton onClick={toggleDrawer(true)} aria-label="Abrir menú de navegación">
+          <IconButton onClick={toggleDrawer(true)} aria-label="Abrir menï¿½ de navegaciï¿½n">
             <MenuIcon />
           </IconButton>
         )}
@@ -99,9 +99,9 @@ const Navbar = () => {
           <Box sx={{ width: 280 }} role="presentation">
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 2 }}>
               <Typography variant="subtitle1" fontWeight={600}>
-                Menú
+                MenÃº
               </Typography>
-              <IconButton onClick={toggleDrawer(false)} aria-label="Cerrar menú de navegación">
+              <IconButton onClick={toggleDrawer(false)} aria-label="Cerrar menÃº de navegaciÃ³n">
                 <CloseIcon />
               </IconButton>
             </Stack>

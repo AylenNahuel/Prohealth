@@ -2,6 +2,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Button, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Link as RouterLink } from 'react-router-dom';
+import consultaImg from '../assets/consulta-medica.jpg';
 
 const Hero = () => (
   <Box
@@ -18,13 +19,13 @@ const Hero = () => (
       <Grid container spacing={6} alignItems="center">
         <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="overline" color="primary" sx={{ letterSpacing: 2 }}>
-            AtenciÛn mÈdica personalizada
+            Atenci√≥n  m√©dica personalizada
           </Typography>
           <Typography variant="h2" component="h1" sx={{ fontWeight: 700, mt: 2, mb: 3 }}>
-            Cuidamos de tu salud con excelencia y cercanÌa
+            Cuidamos de tu salud con excelencia y cercan√≠a 
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
-            Agenda tu consulta con el Dr. Juan PÈrez, especialista en medicina interna con m·s de 15 aÒos de experiencia.
+            Agend√° tu consulta con el Dr. Juan P√©rez, especialista en medicina interna con m√°s de 15 a√±os de experiencia.
           </Typography>
           <Button
             variant="contained"
@@ -39,8 +40,8 @@ const Hero = () => (
         <Grid size={{ xs: 12, md: 6 }}>
           <Box
             component="img"
-            src="https://images.unsplash.com/photo-1579155273739-e0ad33a6ab29?auto=format&fit=crop&w=900&q=80"
-            alt="Consulta mÈdica"
+            src={consultaImg}
+            alt="Consulta m√©dica"
             sx={{
               width: '100%',
               borderRadius: 4,
@@ -56,3 +57,4 @@ const Hero = () => (
 );
 
 export default Hero;
+

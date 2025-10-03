@@ -18,7 +18,7 @@ import useNotifications from '../hooks/useNotifications';
 const INITIAL_APPOINTMENTS = [
   {
     id: 1,
-    paciente: 'Juan PÈrez',
+    paciente: 'Juan P√©rez',
     telefono: '1122334455',
     email: 'juanp@example.com',
     obra: 'OSDE',
@@ -27,7 +27,7 @@ const INITIAL_APPOINTMENTS = [
   },
   {
     id: 2,
-    paciente: 'MarÌa LÛpez',
+    paciente: 'Mar√≠a Lopez',
     telefono: '1199887766',
     email: 'maria@example.com',
     obra: 'Swiss Medical',
@@ -36,7 +36,7 @@ const INITIAL_APPOINTMENTS = [
   },
   {
     id: 3,
-    paciente: 'Carlos RodrÌguez',
+    paciente: 'Carlos Rodr√≠guez',
     telefono: '1133557799',
     email: 'carlosr@example.com',
     obra: 'Galeno',
@@ -82,10 +82,10 @@ const AdminAppointments = () => {
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mb: 3 }}>
         <Box sx={{ flexGrow: 1 }}>
           <Typography variant="h4" component="h1" fontWeight={700}>
-            GestiÛn de citas
+            Gesti√≥n de citas
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Filtr· las solicitudes y confirm· los turnos de tus pacientes.
+            Filtr√° las solicitudes y confirm√° los turnos de tus pacientes.
           </Typography>
         </Box>
         <TextField
@@ -104,7 +104,7 @@ const AdminAppointments = () => {
               <TableRow>
                 <TableCell>ID</TableCell>
                 <TableCell>Paciente</TableCell>
-                <TableCell>TelÈfono</TableCell>
+                <TableCell>Tel√©fono</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Obra social</TableCell>
                 <TableCell>Fecha / hora</TableCell>

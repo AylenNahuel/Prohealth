@@ -38,9 +38,9 @@ const InsuranceDialog = ({ open, onClose, onSubmit, initialData, existingIds }) 
     const trimmedName = values.nombre.trim();
 
     if (!trimmedId) {
-      nextErrors.id = 'Ingresá un identificador.';
+      nextErrors.id = 'Ingrese un identificador.';
     } else if (trimmedId.length < 2) {
-      nextErrors.id = 'Mínimo 2 caracteres.';
+      nextErrors.id = 'MÃ­nimo 2 caracteres.';
     } else if (/\s/.test(trimmedId)) {
       nextErrors.id = 'No se permiten espacios.';
     } else if (!isEdit && existingIds.includes(trimmedId)) {
@@ -48,9 +48,9 @@ const InsuranceDialog = ({ open, onClose, onSubmit, initialData, existingIds }) 
     }
 
     if (!trimmedName) {
-      nextErrors.nombre = 'Ingresá un nombre.';
+      nextErrors.nombre = 'Ingrese un nombre.';
     } else if (trimmedName.length < 3) {
-      nextErrors.nombre = 'Mínimo 3 caracteres.';
+      nextErrors.nombre = 'MÃ­nimo 3 caracteres.';
     }
 
     setErrors(nextErrors);

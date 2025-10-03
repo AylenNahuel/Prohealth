@@ -4,7 +4,7 @@ const insurances = [
   'OSDE',
   'Swiss Medical',
   'Galeno',
-  'Medifé',
+  'MedifÃ©',
   'Hospital Italiano',
   'OMINT',
   'Sancor Salud',

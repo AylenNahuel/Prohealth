@@ -19,7 +19,7 @@ const stats = [
     color: 'secondary',
   },
   {
-    label: 'Próximos del día',
+    label: 'PrÃ³ximos del dÃ­a',
     value: 4,
     icon: TodayIcon,
     color: 'warning',
@@ -29,10 +29,10 @@ const stats = [
 const AdminDashboard = () => (
   <Box>
     <Typography variant="h4" component="h1" fontWeight={700} sx={{ mb: 1 }}>
-      Bienvenido de nuevo, Dr. Pérez ??
+      Bienvenido de nuevo, Dr. PÃ©rez ??
     </Typography>
     <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-      Resumen actualizado de tu agenda y gestión de turnos.
+      Resumen actualizado de tu agenda y gestiÃ³n de turnos.
     </Typography>
 
     <Grid container spacing={3}>
