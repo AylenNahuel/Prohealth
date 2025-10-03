@@ -102,7 +102,7 @@ const AdminInsurances = () => {
               Obras Sociales
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Administr� los convenios que se mostrar�n en la reserva de turnos.
+              Administra los convenios que se mostrarán en la reserva de turnos.
             </Typography>
           </Box>
           <Button
@@ -133,7 +133,7 @@ const AdminInsurances = () => {
         {noResults ? (
           <Alert severity={noData ? 'warning' : 'info'}>
             {noData
-              ? 'No hay obras sociales cargadas. Agreg� la primera.'
+              ? 'No hay obras sociales cargadas. Agrega la primera.'
               : 'No encontramos obras sociales con ese criterio.'}
           </Alert>
         ) : (

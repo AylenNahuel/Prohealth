@@ -43,13 +43,13 @@ const Login = () => {
     const newErrors = {};
 
     if (!formValues.email.trim()) {
-      newErrors.email = 'Ingresá tu email.';
+      newErrors.email = 'Ingrese su email.';
     } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/i.test(formValues.email.trim())) {
       newErrors.email = 'Email inválido.';
     }
 
     if (!formValues.password.trim()) {
-      newErrors.password = 'Ingresa tu contraseña.';
+      newErrors.password = 'Ingrese su contraseña.';
     } else if (formValues.password.trim().length < 6) {
       newErrors.password = 'La contraseña debe tener al menos 6 caracteres.';
     }
@@ -99,7 +99,7 @@ const Login = () => {
     >
       <AuthCard
         title="Acceso profesional"
-        subtitle="Ingresá con tus credenciales para administrar turnos y obras sociales."
+        subtitle="Ingrese con sus credenciales para administrar turnos y obras sociales."
       >
         <Stack component="form" spacing={3} onSubmit={handleSubmit} noValidate>
           <TextField

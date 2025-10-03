@@ -36,15 +36,15 @@ const AppointmentForm2 = () => {
   const validate = () => {
     const next = {};
     const name = formValues.patientName.trim();
-    if (!name || name.length < 3) next.patientName = 'Ingresá un nombre válido (mínimo 3 caracteres).';
+    if (!name || name.length < 3) next.patientName = 'Ingrese un nombre válido (mínimo 3 caracteres).';
     const phone = formValues.phone.trim();
-    if (!phone) next.phone = 'Ingresá un teléfono válido.';
+    if (!phone) next.phone = 'Ingrese un teléfono válido.';
     else if (!/^[0-9+]+$/.test(phone) || phone.replace(/\D/g, '').length < 8) next.phone = 'Solo números (o +) y mínimo 8 dígitos.';
     const email = formValues.email.trim();
-    if (!email) next.email = 'Ingresá un email.';
-    else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/i.test(email)) next.email = 'Ingresá un email válido.';
-    if (!formValues.insurance) next.insurance = 'Seleccioná una obra social.';
-    if (!selectedSlot) next.slot = 'Seleccioná un horario disponible.';
+    if (!email) next.email = 'Ingrese un email.';
+    else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/i.test(email)) next.email = 'Ingrese un email válido.';
+    if (!formValues.insurance) next.insurance = 'Seleccione una obra social.';
+    if (!selectedSlot) next.slot = 'Seleccione un horario disponible.';
     else {
       const slotDate = dayjs(selectedSlot);
       if (!slotDate.isValid() || slotDate.valueOf() < dayjs().valueOf()) next.slot = 'El turno seleccionado ya no está disponible.';

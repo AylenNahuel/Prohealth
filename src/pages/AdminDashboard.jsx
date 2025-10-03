@@ -75,7 +75,7 @@ const AdminDashboard = () => {
   const stats = [
     { key: 'solicitadas', label: 'Solicitadas (semana)', value: solicitadasSemana, color: 'primary' },
     { key: 'confirmadas', label: 'Confirmadas (semana)', value: confirmadasSemana, color: 'secondary' },
-    { key: 'proximas', label: 'Pr�ximas (hoy)', value: proximasHoy, color: 'warning' },
+    { key: 'proximas', label: 'Próximas (hoy)', value: proximasHoy, color: 'warning' },
   ];
 
   return (
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
             Resumen operativo
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Datos actualizados de tus turnos para tomar acci�n r�pidamente.
+            Datos actualizados de tus turnos para tomar acción rápidamente.
           </Typography>
         </Box>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
@@ -144,10 +144,10 @@ const AdminDashboard = () => {
         >
           <Box>
             <Typography variant="h6" fontWeight={600}>
-              Pr�ximos turnos
+              Próximos turnos
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Los pr�ximos turnos ordenados por fecha.
+              Los próximos turnos ordenados por fecha.
             </Typography>
           </Box>
           <Button variant="text" onClick={() => navigate('/admin/appointments')}>
@@ -185,7 +185,7 @@ const AdminDashboard = () => {
                 <TableRow>
                   <TableCell colSpan={4} align="center">
                     <Typography variant="body2" color="text.secondary">
-                      No hay turnos pr�ximos programados.
+                      No hay turnos próximos programados.
                     </Typography>
                   </TableCell>
                 </TableRow>

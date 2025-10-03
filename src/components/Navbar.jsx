@@ -85,7 +85,7 @@ const Navbar = () => {
             </Button>
           </Stack>
         ) : (
-          <IconButton onClick={toggleDrawer(true)} aria-label="Abrir men� de navegaci�n">
+          <IconButton onClick={toggleDrawer(true)} aria-label="Abrir menú de navegación">
             <MenuIcon />
           </IconButton>
         )}

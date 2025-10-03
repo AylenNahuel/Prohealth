@@ -22,7 +22,7 @@ const Hero = () => (
             Atención  médica personalizada
           </Typography>
           <Typography variant="h2" component="h1" sx={{ fontWeight: 700, mt: 2, mb: 3 }}>
-            Cuidamos de tu salud con excelencia y cercanía 
+            Cuido de tu salud con excelencia y cercanía 
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
             Agendá tu consulta con el Dr. Juan Pérez, especialista en medicina interna con más de 15 años de experiencia.
