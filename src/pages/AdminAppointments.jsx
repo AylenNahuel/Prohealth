@@ -24,6 +24,9 @@ import {
   TextField,
   Typography,
   useMediaQuery,
+  Card,
+  CardContent,
+  Divider,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
@@ -45,7 +48,8 @@ const rowsPerPageOptions = [10];
 
 const AdminAppointments = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // xs
+  const isTabletUp = useMediaQuery(theme.breakpoints.up('sm')); // sm+
   const { showNotification } = useNotifications();
 
   const [appointments, setAppointments] = useState(APPOINTMENT_MOCKS);
@@ -80,9 +84,7 @@ const AdminAppointments = () => {
     [sortedAppointments, page, rowsPerPage]
   );
 
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
+  const handleChangePage = (_, newPage) => setPage(newPage);
 
   const handleConfirm = (id) => {
     setAppointments((prev) =>
@@ -100,7 +102,7 @@ const AdminAppointments = () => {
   }`;
 
   return (
-    < Box>
+    <Box>
       <Box
         sx={{
           display: 'flex',
@@ -114,7 +116,12 @@ const AdminAppointments = () => {
         <Typography variant="h4" component="h1" fontWeight={700}>
           Gestión de citas
         </Typography>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems={{ xs: 'flex-start', sm: 'center' }}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={1}
+          alignItems={{ xs: 'stretch', sm: 'center' }}
+          sx={{ width: { xs: '100%', sm: 'auto' } }}
+        >
           <TextField
             value={search}
             onChange={(event) => {
@@ -136,97 +143,175 @@ const AdminAppointments = () => {
             {resultsLabel}
           </Typography>
         </Stack>
-
       </Box>
 
-      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
-        {/* Top controls moved to header bar */}
-
-        <TableContainer>
-          <Table size={isMobile ? 'small' : 'medium'}>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id} sortDirection={column.id === 'slotISO' ? order : false}>
-                    {column.id === 'slotISO' ? (
-                      <TableSortLabel active direction={order} onClick={handleRequestSort}>
-                        {column.label}
-                      </TableSortLabel>
-                    ) : (
-                      column.label
-                    )}
-                  </TableCell>
-                ))}
-                <TableCell align="right">Acciones</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedAppointments.map((appointment) => {
-                const isSolicitada = appointment.estado === 'SOLICITADA';
-                return (
-                  <TableRow key={appointment.id} hover>
-                    <TableCell>{appointment.id}</TableCell>
-                    <TableCell>{appointment.nombre}</TableCell>
-                    <TableCell>{appointment.telefono}</TableCell>
-                    <TableCell>{appointment.email}</TableCell>
-                    <TableCell>{appointment.obra}</TableCell>
-                    <TableCell>{formatSlot(appointment.slotISO)}</TableCell>
-                    <TableCell>
+      {/* ---------- vista XS: tarjetas ---------- */}
+      {isMobile && (
+        <Stack spacing={1.5}>
+          {paginatedAppointments.map((a) => {
+            const isSolicitada = a.estado === 'SOLICITADA';
+            return (
+              <Card key={a.id} elevation={3} sx={{ borderRadius: 3 }}>
+                <CardContent>
+                  <Stack spacing={1}>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                      <Typography variant="subtitle2" color="text.secondary">
+                        {a.id}
+                      </Typography>
                       <Chip
-                        label={appointment.estado}
+                        label={a.estado}
                         size="small"
                         color={isSolicitada ? 'default' : 'success'}
                         variant={isSolicitada ? 'outlined' : 'filled'}
                       />
-                    </TableCell>
-                    <TableCell align="right">
-                      <Stack direction="row" justifyContent="flex-end" spacing={1}>
-                        <IconButton aria-label="Ver detalle" size="small" onClick={() => setDetail(appointment)}>
-                          <VisibilityIcon fontSize="small" />
+                    </Stack>
+
+                    <Typography variant="h6" fontWeight={600}>{a.nombre}</Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      {a.telefono}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {a.email}
+                    </Typography>
+
+                    <Divider />
+
+                    <Typography variant="body2" color="text.secondary">
+                      Obra social: {a.obra}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Fecha/Hora: {formatSlot(a.slotISO)}
+                    </Typography>
+
+                    <Stack direction="row" spacing={1} justifyContent="flex-end">
+                      <IconButton aria-label="Ver detalle" size="small" onClick={() => setDetail(a)}>
+                        <VisibilityIcon fontSize="small" />
+                      </IconButton>
+                      {isSolicitada && (
+                        <IconButton
+                          aria-label="Confirmar"
+                          color="success"
+                          size="small"
+                          onClick={() => handleConfirm(a.id)}
+                        >
+                          <CheckIcon fontSize="small" />
                         </IconButton>
-                        {isSolicitada && (
-                          isMobile ? (
-                            <IconButton aria-label="Confirmar" color="success" size="small" onClick={() => handleConfirm(appointment.id)}>
-                              <CheckIcon fontSize="small" />
-                            </IconButton>
-                          ) : (
+                      )}
+                    </Stack>
+                  </Stack>
+                </CardContent>
+              </Card>
+            );
+          })}
+
+          {paginatedAppointments.length === 0 && (
+            <Paper elevation={3} sx={{ p: 2, borderRadius: 3, textAlign: 'center' }}>
+              <Typography variant="body2" color="text.secondary">
+                No encontramos turnos con ese criterio.
+              </Typography>
+            </Paper>
+          )}
+
+          {/* paginación también para xs */}
+          <Paper elevation={0} sx={{ mt: 1 }}>
+            <TablePagination
+              component="div"
+              count={sortedAppointments.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOptions={rowsPerPageOptions}
+            />
+          </Paper>
+        </Stack>
+      )}
+
+      {/* ---------- vista SM+ : tabla clásica ---------- */}
+      {isTabletUp && (
+        <Paper elevation={3} sx={{ p: { xs: 2, md: 3 }, borderRadius: 3 }}>
+          <TableContainer sx={{ overflowX: 'auto' }}>
+            <Table size="medium" sx={{ minWidth: 900 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Paciente</TableCell>
+                  <TableCell>Teléfono</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Obra Social</TableCell>
+                  <TableCell sortDirection={order}>
+                    <TableSortLabel active direction={order} onClick={handleRequestSort}>
+                      Fecha/Hora
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell>Estado</TableCell>
+                  <TableCell align="right">Acciones</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {paginatedAppointments.map((a) => {
+                  const isSolicitada = a.estado === 'SOLICITADA';
+                  return (
+                    <TableRow key={a.id} hover>
+                      <TableCell>{a.id}</TableCell>
+                      <TableCell sx={{ maxWidth: 220, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {a.nombre}
+                      </TableCell>
+                      <TableCell>{a.telefono}</TableCell>
+                      <TableCell>{a.email}</TableCell>
+                      <TableCell>{a.obra}</TableCell>
+                      <TableCell>{formatSlot(a.slotISO)}</TableCell>
+                      <TableCell>
+                        <Chip
+                          label={a.estado}
+                          size="small"
+                          color={isSolicitada ? 'default' : 'success'}
+                          variant={isSolicitada ? 'outlined' : 'filled'}
+                        />
+                      </TableCell>
+                      <TableCell align="right">
+                        <Stack direction="row" justifyContent="flex-end" spacing={1}>
+                          <IconButton aria-label="Ver detalle" size="small" onClick={() => setDetail(a)}>
+                            <VisibilityIcon fontSize="small" />
+                          </IconButton>
+                          {isSolicitada && (
                             <Button
                               variant="contained"
                               color="success"
                               size="small"
-                              onClick={() => handleConfirm(appointment.id)}
+                              onClick={() => handleConfirm(a.id)}
                             >
                               Confirmar
                             </Button>
-                          )
-                        )}
-                      </Stack>
+                          )}
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+                {paginatedAppointments.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={8} align="center">
+                      <Typography variant="body2" color="text.secondary">
+                        No encontramos turnos con ese criterio.
+                      </Typography>
                     </TableCell>
                   </TableRow>
-                );
-              })}
-              {paginatedAppointments.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={columns.length + 1} align="center">
-                    <Typography variant="body2" color="text.secondary">
-                      No encontramos turnos con ese criterio.
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-        <TablePagination
-          component="div"
-          count={sortedAppointments.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={rowsPerPageOptions}
-        />
-      </Paper>
+          <TablePagination
+            component="div"
+            count={sortedAppointments.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={rowsPerPageOptions}
+          />
+        </Paper>
+      )}
 
       <Dialog open={Boolean(detail)} onClose={() => setDetail(null)} maxWidth="sm" fullWidth>
         <DialogTitle>Detalle del turno</DialogTitle>

@@ -99,8 +99,8 @@ const AdminLayout = () => {
         sx={{
           borderBottom: '1px solid',
           borderColor: 'divider',
-          width: { md: `calc(100% - ${drawerWidth}px)` },
-          ml: { md: `${drawerWidth}px` },
+          width: { md: 'calc(100% - ${drawerWidth}px)' },  
+          ml: { md: '${drawerWidth}px'},                  
           backgroundColor: '#fff',
         }}
       >
