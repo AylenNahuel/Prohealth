@@ -38,7 +38,7 @@ const InsuranceDialog = ({ open, onClose, onSubmit, initialData, existingIds }) 
     const trimmedName = values.nombre.trim();
 
     if (!trimmedId) {
-      nextErrors.id = 'Ingresá un identificador.';
+      nextErrors.id = 'Completá un identificador.';
     } else if (trimmedId.length < 2) {
       nextErrors.id = 'Mínimo 2 caracteres.';
     } else if (/\s/.test(trimmedId)) {

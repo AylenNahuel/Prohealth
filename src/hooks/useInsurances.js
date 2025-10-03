@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getItem, setItem } from '../utils/storage';
-import { INSURANCE_MOCKS } from '../mocks/insurances';
+import { INSURANCE_MOCKS } from '../mocks/insurances.data';
 
 const STORAGE_KEY = 'insurances';
 let cache = null;
