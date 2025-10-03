@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HealthPlus - Solicitar Turno</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0D6EFD",
+                        "secondary": "#20C997",
+                        "background-light": "#F0F7FF",
+                        "background-dark": "#101822",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1a2430"
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .form-input,
+        .form-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex flex-col min-h-screen">
+<header class="bg-card-light dark:bg-card-dark/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+<nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold text-gray-900 dark:text-white">HealthPlus</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Inicio</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Servicios</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Especialistas</a>
+<a class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Contacto</a>
+</div>
+<button class="hidden md:block bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors">
+                Iniciar Sesión
+            </button>
+<button class="md:hidden text-gray-800 dark:text-gray-200">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6h16M4 12h16m-7 6h7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</nav>
+</header>
+<main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-lg space-y-8 p-10 bg-card-light dark:bg-card-dark rounded-xl shadow-2xl">
+<div>
+<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+                    Reservá tu Turno
+                </h2>
+<p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+                    Completá el formulario para agendar tu cita.
+                </p>
+</div>
+<form action="#" class="mt-8 space-y-6" method="POST">
+<div class="space-y-4">
+<div>
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="name">Nombre y Apellido</label>
+<input autocomplete="name" class="mt-1 block w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" id="name" name="name" placeholder="John Doe" required="" type="text"/>
+</div>
+<div>
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="phone">Teléfono</label>
+<input autocomplete="tel" class="mt-1 block w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" id="phone" name="phone" placeholder="11 2345-6789" required="" type="tel"/>
+</div>
+<div>
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="email">Email</label>
+<input autocomplete="email" class="mt-1 block w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" id="email" name="email" placeholder="john.doe@example.com" required="" type="email"/>
+<p class="mt-2 text-xs text-red-600 dark:text-red-500 hidden">Debe ser un email válido.</p>
+</div>
+<div>
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="insurance">Obra Social</label>
+<div class="relative mt-1">
+<select class="form-select block w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" id="insurance" name="insurance" required="">
+<option>Seleccione su obra social</option>
+<option>OSDE</option>
+<option>Swiss Medical</option>
+<option>Galeno</option>
+<option>Particular</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+<svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+</svg>
+</div>
+</div>
+</div>
+<div>
+<label class="text-sm font-medium text-gray-700 dark:text-gray-300" for="datetime">Fecha y Hora</label>
+<div class="relative mt-1">
+<select class="form-select block w-full px-4 py-3 bg-background-light dark:bg-background-dark border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" id="datetime" name="datetime" required="">
+<option>Seleccione fecha y hora</option>
+<option>Lunes 15 de Julio - 10:00 hs</option>
+<option>Martes 16 de Julio - 11:30 hs</option>
+<option>Miércoles 17 de Julio - 09:00 hs</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+<svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<div>
+<button class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-base font-bold rounded-lg text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 dark:focus:ring-offset-background-dark transition-all duration-300" type="submit">
+                        Reservar Turno
+                    </button>
+</div>
+</form>
+</div>
+</main>
+<div class="fixed bottom-5 right-5 flex items-center bg-secondary text-white py-3 px-5 rounded-lg shadow-lg opacity-0 translate-y-10 transition-all duration-300" id="snackbar">
+<svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Turno solicitado correctamente</span>
+</div>
+<script>
+        // Simple script to show snackbar on form submission
+        const form = document.querySelector('form');
+        const snackbar = document.getElementById('snackbar');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            snackbar.classList.remove('opacity-0', 'translate-y-10');
+            snackbar.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                snackbar.classList.remove('opacity-100', 'translate-y-0');
+                snackbar.classList.add('opacity-0', 'translate-y-10');
+            }, 3000);
+        })
+    </script>
+</div>
+</body></html>

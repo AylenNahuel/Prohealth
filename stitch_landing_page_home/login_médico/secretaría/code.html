@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MediConnect Login</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0D6EFD",
+                        "secondary": "#20C997",
+                        "background-light": "#F0F7FF", // Changed from #F0F8FF to a slightly different light blue/cream
+                        "background-dark": "#101822",
+                        "foreground-light": "#111827",
+                        "foreground-dark": "#f9fafb",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1f2937",
+                        "input-light": "#e5e7eb",
+                        "input-dark": "#374151",
+                        "placeholder-light": "#6b7280",
+                        "placeholder-dark": "#9ca3af",
+                        "error": "#ef4444"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-foreground-light dark:text-foreground-dark">
+<div class="flex items-center justify-center min-h-screen p-4">
+<div class="w-full max-w-md space-y-8">
+<div class="text-center">
+<svg class="mx-auto h-12 w-auto text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C14.0589 4 6 12.0589 6 22C6 26.6234 7.82433 30.7634 10.7497 33.8741L10.75 33.875L12.5 35.875V44H18.5V38.125C18.5 37.0204 19.4204 36.125 20.5 36.125H27.5C28.5796 36.125 29.5 37.0204 29.5 38.125V44H35.5V35.875L37.25 33.875L37.2503 33.8741C40.1757 30.7634 42 26.6234 42 22C42 12.0589 33.9411 4 24 4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<path d="M24 26C26.2091 26 28 24.2091 28 22C28 19.7909 26.2091 18 24 18C21.7909 18 20 19.7909 20 22C20 24.2091 21.7909 26 24 26Z" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<path d="M14 14H15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<path d="M33 14H34" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+</svg>
+<h1 class="mt-6 text-3xl font-bold tracking-tight text-foreground-light dark:text-foreground-dark">Accede a tu cuenta</h1>
+<p class="mt-2 text-sm text-placeholder-light dark:text-placeholder-dark">Bienvenido de nuevo, doctor.</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-8 rounded-xl shadow-lg space-y-6">
+<form action="#" class="space-y-6" method="POST">
+<div>
+<label class="block text-sm font-medium text-foreground-light dark:text-foreground-dark" for="email">Correo electrónico</label>
+<div class="mt-2">
+<input autocomplete="email" class="block w-full rounded-lg border-0 bg-gray-50 dark:bg-input-dark py-3 px-4 text-foreground-light dark:text-foreground-dark placeholder:text-placeholder-light dark:placeholder:text-placeholder-dark focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" id="email" name="email" required="" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between">
+<label class="block text-sm font-medium text-foreground-light dark:text-foreground-dark" for="password">Contraseña</label>
+<div class="text-sm">
+<a class="font-semibold text-primary hover:text-primary/80" href="#">¿Olvidaste tu contraseña?</a>
+</div>
+</div>
+<div class="mt-2">
+<input autocomplete="current-password" class="block w-full rounded-lg border-0 bg-gray-50 dark:bg-input-dark py-3 px-4 text-foreground-light dark:text-foreground-dark placeholder:text-placeholder-light dark:placeholder:text-placeholder-dark focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6" id="password" name="password" required="" type="password"/>
+</div>
+</div>
+<div>
+<button class="flex w-full justify-center rounded-lg bg-primary px-4 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors" type="submit">Ingresar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+</body></html>

@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# TPO – Sistema de Turnos Médicos
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicación frontend construida en React para gestionar reservas de turnos de un consultorio médico. Incluye landing pública, turnera interactiva, formulario de solicitud, login demo, panel administrativo y CRUD de obras sociales con persistencia en LocalStorage.
 
-## Available Scripts
+## Stack
+- React 18 (Create React App)
+- Material UI 5
+- React Router DOM 6
+- Dayjs
+- Context + hooks personalizados (notificaciones y obras sociales)
 
-In the project directory, you can run:
+## Instalación
+`ash
+npm install
+npm start
+`
+La app corre en http://localhost:3000.
 
-### `npm start`
+## Estructura de carpetas
+`
+/src
+  /components        # Navbar, Hero, Turnera, diálogos, NotificationProvider, etc.
+  /pages             # Home, Login, AdminDashboard, AdminAppointments, AdminInsurances…
+  /hooks             # useInsurances, useNotifications
+  /mocks             # citas y obras sociales de ejemplo
+  /utils             # calendario, helpers de storage
+  /theme             # tema global de MUI
+  App.js / index.js
+`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Funcionalidades entregadas
+- Landing completa con secciones Hero, Servicios, Bio, Obras Sociales y Contacto.
+- Turnera interactiva (14 días hábiles, intervalos de 30 minutos) + formulario validado con mock de turnos ocupados.
+- Login demo (admin@demo.com / Admin123!).
+- Panel administrativo con dashboard, listado de citas y acciones de confirmación.
+- CRUD de obras sociales en memoria con persistencia en LocalStorage y reflejado en el formulario público.
+- Sistema de notificaciones mock (Snackbars) para creación y confirmación de turnos.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Próximos pasos
+- Integrar backend Node/Express con base de datos (SQL/NoSQL).
+- Persistir citas reales, confirmar turnos vía API y enviar correos con nodemailer.
+- Implementar autenticación real y manejo de sesiones.
+- Añadir reportes y métricas ampliadas en el panel.
 
-### `npm test`
+## Autores / Facultad
+Trabajo Práctico Final – Interactivas
+Universidad / Cátedra: [Completar información institucional]
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Checklist de la entrega
+- [x] Compila sin errores.
+- [x] Rutas públicas/privadas y guards funcionando.
+- [x] Turnera operativa (14 días hábiles, cada 30 minutos).
+- [x] Mock de turnos ocupados integrado.
+- [x] CRUD de obras sociales activo y visible en el selector del formulario.
+- [x] Snackbars y notificaciones alineadas al diseño.

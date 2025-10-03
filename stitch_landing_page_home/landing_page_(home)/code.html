@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dr. Alejandro Ramirez</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0D6EFD", // Medical Blue as primary
+                        "secondary": "#20C997", // Green
+                        "accent": "#6C757D",
+                        "text-primary": "#212529",
+                        "text-secondary": "#6C757D",
+                        "background-light": "#F0F5FA", // Very light blue/cream
+                        "background-soft": "#E6EEF5", // Softer blue/cream
+                        "background-dark": "#181A1B", // A very dark blue/grey for professionalism
+                        "border-light": "#DEE2E6",
+                        "border-dark": "#343A40",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", // slightly larger for a modern feel
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'subtle': '0 4px 12px rgba(0,0,0,0.05)',
+                        'md': '0 8px 16px rgba(0,0,0,0.1)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-primary dark:text-background-light">
+<div class="relative w-full min-h-screen">
+<header class="fixed top-0 left-0 right-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-border-light dark:border-border-dark transition-colors duration-300">
+<nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+<a class="flex items-center gap-3" href="#">
+<svg class="h-8 w-8 text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7Z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M12 4.5v15m-6.75-7.5h13.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-xl font-bold text-text-primary dark:text-background-light">Dr. Alejandro Ramirez</span>
+</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-text-secondary dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Inicio</a>
+<a class="text-text-secondary dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#services">Servicios</a>
+<a class="text-text-secondary dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#insurance">Obras Sociales</a>
+<a class="text-text-secondary dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors" href="#contact">Contacto</a>
+</div>
+<a class="hidden md:inline-block bg-primary text-white font-bold py-2 px-5 rounded-lg hover:opacity-90 transition-opacity" href="#">
+                    Login
+                </a>
+<button class="md:hidden text-text-primary dark:text-background-light">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</nav>
+</header>
+<main class="pt-20">
+<section class="relative h-[calc(100vh-5rem)] min-h-[500px] flex items-center justify-center text-center text-white">
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCcl4qYtT_35RhQefUNLZRfoMzS6QnkrHr-LeJbUnL8W0Pz621zGXovrG2lIlRXCktIo_xlPFafvXVDPO5MFTneOq7r8H7-LfDHqnJGloPvTrzXfamisIRWgP-hBc8XYP0Ypfz-o-NKdbaGw2UkNjkIfhe9OObfP836Jn2e0jwnPKF5bYuh7qv1ZOo9LFuC7zuq6SGoqx5bKG-Fydj-5lwigqZhP0mYpEzmmvc1Pkq5JhW205rvMzG00HnCSLD7X5RQ1BLAZ0i6AXc');"></div>
+<div class="absolute inset-0 bg-black/50"></div>
+<div class="relative z-10 px-6 flex flex-col items-center max-w-4xl">
+<h1 class="text-4xl md:text-6xl font-black leading-tight tracking-tight mb-4">Cuidamos tu salud con profesionalismo</h1>
+<p class="text-lg md:text-xl font-light mb-8 max-w-2xl">Tu bienestar es nuestra prioridad. Ofrecemos atención médica de calidad con un enfoque personalizado.</p>
+<a class="bg-secondary text-white font-bold py-3 px-8 rounded-lg text-lg hover:opacity-90 transition-transform transform hover:scale-105" href="#">
+                        Reservar Turno
+                    </a>
+</div>
+</section>
+<section class="py-24 bg-background-light dark:bg-background-dark" id="about">
+<div class="container mx-auto px-6">
+<div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+<div class="w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden shadow-md flex-shrink-0">
+<img alt="Dr. Alejandro Ramirez" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0jvOaZeosHtJY76DISk7ILTUesuovT6H_T-AqOpaf_5vqjHhdPaDNM2p4_iOKJPk0j0sr3DDwva6FfLFkcX9n1_jl6BqUvnbmNCemP9PB1Aya11QI0mL-3jSahJ4zeKFKHndWcATIHvEOSJXjJK6pdz649_hW9lsjX04pjgNEbTtT2sJbeVHgqfuLVzKzZcVR9QBwT0kiL5nabTuBzHavhu9SkVTPAUVZEXWKnHrXGJrg4M3QhnxL6CqFy_ZoqF8wMVw4B-Mj1fA"/>
+</div>
+<div class="text-center md:text-left">
+<h2 class="text-3xl font-bold text-text-primary dark:text-background-light mb-2">Dr. Alejandro Ramirez</h2>
+<p class="text-xl text-primary font-medium mb-4">Especialista en Medicina Interna</p>
+<div class="text-text-secondary dark:text-gray-400 space-y-2">
+<p><strong>Formación:</strong> Universidad de Buenos Aires</p>
+<p><strong>Matrícula:</strong> 123456</p>
+<p><strong>Experiencia:</strong> 15 años</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-background-soft dark:bg-gray-900/50" id="services">
+<div class="container mx-auto px-6 text-center">
+<h2 class="text-3xl font-bold mb-4">Nuestros Servicios</h2>
+<p class="text-lg text-text-secondary dark:text-gray-400 max-w-2xl mx-auto mb-16">Atención dedicada y profesional para cada una de tus necesidades.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-subtle text-center flex flex-col items-center">
+<div class="bg-primary/10 dark:bg-primary/20 p-4 rounded-full mb-6">
+<span class="material-symbols-outlined text-primary text-4xl">stethoscope</span>
+</div>
+<h3 class="text-lg font-bold mb-2">Consulta Clínica</h3>
+<p class="text-text-secondary dark:text-gray-400 text-sm">Evaluación integral de tu salud y tratamiento de enfermedades comunes.</p>
+</div>
+<div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-subtle text-center flex flex-col items-center">
+<div class="bg-primary/10 dark:bg-primary/20 p-4 rounded-full mb-6">
+<span class="material-symbols-outlined text-primary text-4xl">checklist</span>
+</div>
+<h3 class="text-lg font-bold mb-2">Chequeo Médico</h3>
+<p class="text-text-secondary dark:text-gray-400 text-sm">Exámenes preventivos para detectar y prevenir problemas de salud.</p>
+</div>
+<div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-subtle text-center flex flex-col items-center">
+<div class="bg-primary/10 dark:bg-primary/20 p-4 rounded-full mb-6">
+<span class="material-symbols-outlined text-primary text-4xl">vaccines</span>
+</div>
+<h3 class="text-lg font-bold mb-2">Vacunación</h3>
+<p class="text-text-secondary dark:text-gray-400 text-sm">Aplicación de vacunas para protegerte de diversas enfermedades.</p>
+</div>
+<div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-subtle text-center flex flex-col items-center">
+<div class="bg-primary/10 dark:bg-primary/20 p-4 rounded-full mb-6">
+<span class="material-symbols-outlined text-primary text-4xl">nutrition</span>
+</div>
+<h3 class="text-lg font-bold mb-2">Asesoramiento Nutricional</h3>
+<p class="text-text-secondary dark:text-gray-400 text-sm">Orientación personalizada para mejorar tus hábitos alimenticios.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-background-light dark:bg-background-dark" id="insurance">
+<div class="container mx-auto px-6 text-center">
+<h2 class="text-3xl font-bold mb-4">Obras Sociales</h2>
+<p class="text-lg text-text-secondary dark:text-gray-400 max-w-2xl mx-auto mb-12">Aceptamos una amplia variedad de coberturas médicas para tu comodidad.</p>
+<div class="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+<div class="bg-background-light dark:bg-gray-800 py-3 px-6 rounded-lg text-text-secondary dark:text-gray-300 font-medium border border-gray-200 dark:border-gray-700">OSDE</div>
+<div class="bg-background-light dark:bg-gray-800 py-3 px-6 rounded-lg text-text-secondary dark:text-gray-300 font-medium border border-gray-200 dark:border-gray-700">Swiss Medical</div>
+<div class="bg-background-light dark:bg-gray-800 py-3 px-6 rounded-lg text-text-secondary dark:text-gray-300 font-medium border border-gray-200 dark:border-gray-700">Galeno</div>
+<div class="bg-background-light dark:bg-gray-800 py-3 px-6 rounded-lg text-text-secondary dark:text-gray-300 font-medium border border-gray-200 dark:border-gray-700">Medifé</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-background-soft dark:bg-gray-900/50" id="contact">
+<div class="container mx-auto px-6">
+<div class="text-center">
+<h2 class="text-3xl font-bold mb-4">Contacto</h2>
+<p class="text-lg text-text-secondary dark:text-gray-400 max-w-2xl mx-auto mb-16">Estamos aquí para ayudarte. Encuéntranos o contáctanos.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-subtle">
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-2xl mt-1">location_on</span>
+<div>
+<h3 class="font-bold text-text-primary dark:text-background-light">Dirección</h3>
+<p class="text-text-secondary dark:text-gray-400">Av. Santa Fe 1234, Buenos Aires</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-2xl mt-1">call</span>
+<div>
+<h3 class="font-bold text-text-primary dark:text-background-light">Teléfono/WhatsApp</h3>
+<p class="text-text-secondary dark:text-gray-400">+54 9 11 5555-1234</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-2xl mt-1">email</span>
+<div>
+<h3 class="font-bold text-text-primary dark:text-background-light">Email</h3>
+<p class="text-text-secondary dark:text-gray-400">info@drramirez.com</p>
+</div>
+</div>
+</div>
+</div>
+<div class="h-80 md:h-full rounded-xl overflow-hidden shadow-md">
+<img alt="Mapa de ubicación" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdLI2jtVxRUmw9dIT03RQensLaoQgF6xtxVS3BWSTxHHLqwDvr9AQfHdRyJy8LptvWyOohASnJNrSWPA-vLEw9kdBsbVE-5O_19nvbFJ39DWO5BSBXtqs_96vp2p4abWTxStq9yrYzWBokBO53S6u3rLsMWJeoGW4iheNQO536FzB81PS4xT2VqPHQPvval9VAJONlwLXT3viX2cLPuAIO4Os-V52VlU8Sx6qn72O1CqY0o7yND7BuEBmALI_L7Xwx2JIfgezXjo4"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-background-light dark:bg-gray-900 border-t border-border-light dark:border-border-dark">
+<div class="container mx-auto px-6 py-8 text-center text-text-secondary dark:text-gray-400">
+<div class="flex justify-center gap-6 mb-6">
+<a class="text-text-secondary dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919A48.898 48.898 0 0 1 12 2.163m0-2.163C8.74 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.74 0 12c0 3.259.014 3.667.072 4.947.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.74 24 12 24c3.259 0 3.667-.014 4.947-.072 4.358-.2 6.78-2.618 6.98-6.98.058-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98C15.667.014 15.26 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0-2.88 1.44 1.44 0 0 0 0 2.88z"></path>
+</svg>
+</a>
+<a class="text-text-secondary dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+</svg>
+</a>
+</div>
+<p class="text-sm">© 2024 Dr. Alejandro Ramirez. Todos los derechos reservados.</p>
+</div>
+</footer>
+</div>
+
+</body></html>
