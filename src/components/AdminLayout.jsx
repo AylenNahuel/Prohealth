@@ -25,21 +25,9 @@ import LogoutIcon from '@mui/icons-material/LogoutRounded';
 const drawerWidth = 260;
 
 const navItems = [
-  {
-    label: 'Dashboard',
-    icon: <DashboardIcon />, 
-    to: '/admin',
-  },
-  {
-    label: 'Citas',
-    icon: <EventNoteIcon />, 
-    to: '/admin/appointments',
-  },
-  {
-    label: 'Obras Sociales',
-    icon: <MedicalServicesIcon />, 
-    to: '/admin/insurances',
-  },
+  { label: 'Dashboard', icon: <DashboardIcon />, to: '/admin' },
+  { label: 'Citas', icon: <EventNoteIcon />, to: '/admin/appointments' },
+  { label: 'Obras Sociales', icon: <MedicalServicesIcon />, to: '/admin/insurances' },
 ];
 
 const AdminLayout = () => {
@@ -72,7 +60,7 @@ const AdminLayout = () => {
           ProHealth Admin
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Gestión integral
+          Gestión integral de turnos
         </Typography>
       </Box>
       <Divider />

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import dayjs from 'dayjs';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import {
   Avatar,
   Box,
@@ -23,7 +23,7 @@ import {
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleOutline';
 import TodayIcon from '@mui/icons-material/TodayOutlined';
-import { APPOINTMENT_MOCKS } from '../mocks/appointments';
+import { APPOINTMENT_MOCKS } from '../mocks/appointments.data';
 
 const iconMap = {
   solicitadas: CalendarMonthIcon,
@@ -35,7 +35,6 @@ const computeMetrics = () => {
   const now = dayjs();
   const weekLimit = now.add(7, 'day').endOf('day');
 
-
   const solicitadasSemana = APPOINTMENT_MOCKS.filter(({ estado, slotISO }) => {
     const slot = dayjs(slotISO);
     return estado === 'SOLICITADA' && slot.isSameOrAfter(now) && slot.isBefore(weekLimit);
@@ -46,36 +45,24 @@ const computeMetrics = () => {
     return estado === 'CONFIRMADA' && slot.isSameOrAfter(now) && slot.isBefore(weekLimit);
   }).length;
 
-  const proximasHoy = APPOINTMENT_MOCKS.filter(({ slotISO }) =>
-    dayjs(slotISO).isSame(now, 'day')
-  ).length;
+  const proximasHoy = APPOINTMENT_MOCKS.filter(({ slotISO }) => dayjs(slotISO).isSame(now, 'day')).length;
 
-  const proximas = APPOINTMENT_MOCKS.filter(({ slotISO }) =>
-    dayjs(slotISO).isSameOrAfter(now)
-  )
+  const proximas = APPOINTMENT_MOCKS.filter(({ slotISO }) => dayjs(slotISO).isSameOrAfter(now))
     .sort((a, b) => dayjs(a.slotISO).diff(dayjs(b.slotISO)))
     .slice(0, 5);
 
-  return {
-    solicitadasSemana,
-    confirmadasSemana,
-    proximasHoy,
-    proximas,
-  };
+  return { solicitadasSemana, confirmadasSemana, proximasHoy, proximas };
 };
 
-const AdminDashboard = () => {
+const AdminDashboard2 = () => {
   const navigate = useNavigate();
 
-  const { solicitadasSemana, confirmadasSemana, proximasHoy, proximas } = useMemo(
-    () => computeMetrics(),
-    []
-  );
+  const { solicitadasSemana, confirmadasSemana, proximasHoy, proximas } = useMemo(() => computeMetrics(), []);
 
   const stats = [
     { key: 'solicitadas', label: 'Solicitadas (semana)', value: solicitadasSemana, color: 'primary' },
     { key: 'confirmadas', label: 'Confirmadas (semana)', value: confirmadasSemana, color: 'secondary' },
-    { key: 'proximas', label: 'Pr�ximas (hoy)', value: proximasHoy, color: 'warning' },
+    { key: 'proximas', label: 'Próximas (hoy)', value: proximasHoy, color: 'warning' },
   ];
 
   return (
@@ -86,7 +73,7 @@ const AdminDashboard = () => {
             Resumen operativo
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Datos actualizados de tus turnos para tomar acci�n r�pidamente.
+            Datos actualizados de tus turnos para tomar acción rápidamente.
           </Typography>
         </Box>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
@@ -103,7 +90,7 @@ const AdminDashboard = () => {
         {stats.map(({ key, label, value, color }) => {
           const Icon = iconMap[key];
           return (
-            <Grid key={key} xs={12} md={4}>
+            <Grid key={key} item xs={12} md={4}>
               <Card elevation={3} sx={{ borderRadius: 3, height: '100%' }}>
                 <CardContent>
                   <Stack direction="row" spacing={3} alignItems="center">
@@ -134,20 +121,14 @@ const AdminDashboard = () => {
         })}
       </Grid>
 
-      <Paper elevation={3} sx={{ borderRadius: 3, p: { xs: 2, md: 3 } }}>
-        <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          spacing={1}
-          justifyContent="space-between"
-          alignItems={{ xs: 'flex-start', sm: 'center' }}
-          sx={{ mb: 2 }}
-        >
+      <Paper elevation={3} sx={{ borderRadius: 3, p: 3 }}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} sx={{ mb: 2 }}>
           <Box>
             <Typography variant="h6" fontWeight={600}>
-              Pr�ximos turnos
+              Próximos turnos
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Los pr�ximos turnos ordenados por fecha.
+              Los próximos turnos ordenados por fecha.
             </Typography>
           </Box>
           <Button variant="text" onClick={() => navigate('/admin/appointments')}>
@@ -161,7 +142,7 @@ const AdminDashboard = () => {
               <TableRow>
                 <TableCell>Paciente</TableCell>
                 <TableCell>Obra social</TableCell>
-                <TableCell>Fecha / hora</TableCell>
+                <TableCell>Fecha/Hora</TableCell>
                 <TableCell>Estado</TableCell>
               </TableRow>
             </TableHead>
@@ -185,7 +166,7 @@ const AdminDashboard = () => {
                 <TableRow>
                   <TableCell colSpan={4} align="center">
                     <Typography variant="body2" color="text.secondary">
-                      No hay turnos pr�ximos programados.
+                      No hay turnos próximos programados.
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -198,4 +179,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default AdminDashboard2;

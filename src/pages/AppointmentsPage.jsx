@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from '@mui/material';
-import AppointmentForm from '../components/AppointmentForm';
+import AppointmentForm from '../components/AppointmentForm2';
 
 const AppointmentsPage = () => (
   <Box sx={{ py: { xs: 6, md: 8 } }}>

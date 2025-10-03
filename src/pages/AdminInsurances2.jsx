@@ -25,7 +25,7 @@ import InsuranceDialog from '../components/InsuranceDialog';
 import ConfirmDelete from '../components/ConfirmDelete';
 import useInsurances from '../hooks/useInsurances';
 
-const AdminInsurances = () => {
+const AdminInsurances2 = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { insurances, addInsurance, updateInsurance, removeInsurance, existsId } = useInsurances();
@@ -39,9 +39,7 @@ const AdminInsurances = () => {
   const filteredInsurances = useMemo(() => {
     const query = search.trim().toLowerCase();
     if (!query) return insurances;
-    return insurances.filter(
-      ({ nombre, id }) => nombre.toLowerCase().includes(query) || id.toLowerCase().includes(query)
-    );
+    return insurances.filter(({ nombre, id }) => nombre.toLowerCase().includes(query) || id.toLowerCase().includes(query));
   }, [insurances, search]);
 
   const handleCloseDialog = () => {
@@ -102,15 +100,10 @@ const AdminInsurances = () => {
               Obras Sociales
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Administr� los convenios que se mostrar�n en la reserva de turnos.
+              Administrá los convenios que se mostrarán en la reserva de turnos.
             </Typography>
           </Box>
-          <Button
-            onClick={handleCreate}
-            variant="contained"
-            color="primary"
-            sx={{ alignSelf: { xs: 'stretch', sm: 'center' } }}
-          >
+          <Button onClick={handleCreate} variant="contained" color="primary" sx={{ alignSelf: { xs: 'stretch', sm: 'center' } }}>
             Nueva obra social
           </Button>
         </Box>
@@ -118,23 +111,15 @@ const AdminInsurances = () => {
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           placeholder="Buscar por nombre o ID"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
+          InputProps={{ startAdornment: (<InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>) }}
           sx={{ maxWidth: 320 }}
         />
       </Box>
 
-      <Paper elevation={3} sx={{ p: { xs: 2, md: 3 }, borderRadius: 3 }}>
+      <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
         {noResults ? (
           <Alert severity={noData ? 'warning' : 'info'}>
-            {noData
-              ? 'No hay obras sociales cargadas. Agreg� la primera.'
-              : 'No encontramos obras sociales con ese criterio.'}
+            {noData ? 'No hay obras sociales cargadas. Agregá la primera.' : 'No encontramos obras sociales con ese criterio.'}
           </Alert>
         ) : (
           <TableContainer>
@@ -154,19 +139,10 @@ const AdminInsurances = () => {
                     <TableCell align="right">
                       {isMobile ? (
                         <Box>
-                          <IconButton
-                            aria-label={`Editar ${insurance.nombre}`}
-                            size="small"
-                            onClick={() => handleEdit(insurance)}
-                          >
+                          <IconButton aria-label={`Editar ${insurance.nombre}`} size="small" onClick={() => handleEdit(insurance)}>
                             <EditIcon fontSize="small" />
                           </IconButton>
-                          <IconButton
-                            aria-label={`Eliminar ${insurance.nombre}`}
-                            size="small"
-                            color="error"
-                            onClick={() => handleDeleteRequest(insurance.id)}
-                          >
+                          <IconButton aria-label={`Eliminar ${insurance.nombre}`} size="small" color="error" onClick={() => handleDeleteRequest(insurance.id)}>
                             <DeleteIcon fontSize="small" />
                           </IconButton>
                         </Box>
@@ -175,12 +151,7 @@ const AdminInsurances = () => {
                           <Button variant="outlined" size="small" onClick={() => handleEdit(insurance)}>
                             Editar
                           </Button>
-                          <Button
-                            variant="contained"
-                            color="error"
-                            size="small"
-                            onClick={() => handleDeleteRequest(insurance.id)}
-                          >
+                          <Button variant="contained" color="error" size="small" onClick={() => handleDeleteRequest(insurance.id)}>
                             Eliminar
                           </Button>
                         </Box>
@@ -207,15 +178,10 @@ const AdminInsurances = () => {
         onCancel={() => setConfirmId(null)}
         onConfirm={handleDeleteConfirm}
         title="Eliminar obra social"
-        description={`Eliminar obra social "${insurances.find((item) => item.id === confirmId)?.nombre || ''}"?`}
+        description={`¿Eliminar obra social "${insurances.find((item) => item.id === confirmId)?.nombre || ''}"?`}
       />
 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={4000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
+      <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={handleSnackbarClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
         <Alert onClose={handleSnackbarClose} severity={snackbar.severity} variant="filled">
           {snackbar.message}
         </Alert>
@@ -224,4 +190,5 @@ const AdminInsurances = () => {
   );
 };
 
-export default AdminInsurances;
+export default AdminInsurances2;
+

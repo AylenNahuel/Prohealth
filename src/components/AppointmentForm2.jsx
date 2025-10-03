@@ -1,22 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
-import {
-  Alert,
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import Turnera from './Turnera';
 import useInsurances from '../hooks/useInsurances';
 import useNotifications from '../hooks/useNotifications';
-import Turnera from './Turnera';
-import { OCCUPIED_APPOINTMENTS } from '../mocks/appointments';
+import { OCCUPIED_APPOINTMENTS } from '../mocks/appointments.data';
 
 const initialValues = {
   patientName: '',
@@ -25,17 +14,16 @@ const initialValues = {
   insurance: '',
 };
 
-const AppointmentForm = ({ onBooked }) => {
+const AppointmentForm2 = () => {
   const { insurances } = useInsurances();
   const { showNotification } = useNotifications();
   const [formValues, setFormValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
-  const [emailInfo, setEmailInfo] = useState('');
   const [selectedSlot, setSelectedSlot] = useState('');
   const [occupiedSlots] = useState(() => OCCUPIED_APPOINTMENTS);
 
   useEffect(() => {
-    if (formValues.insurance && !insurances.some((insurance) => insurance.id === formValues.insurance)) {
+    if (formValues.insurance && !insurances.some((i) => i.id === formValues.insurance)) {
       setFormValues((prev) => ({ ...prev, insurance: '' }));
     }
   }, [insurances, formValues.insurance]);
@@ -46,77 +34,43 @@ const AppointmentForm = ({ onBooked }) => {
   };
 
   const validate = () => {
-    const newErrors = {};
-    const trimmedName = formValues.patientName.trim();
-    if (!trimmedName || trimmedName.length < 3) {
-      newErrors.patientName = 'Ingrese un nombre válido (mínimo 3 caracteres).';
-    }
-
-    if (!formValues.phone.trim()) {
-      newErrors.phone = 'Ingrese un teléfono válido.';
-    } else if (!/^[0-9+]+$/.test(formValues.phone.trim()) || formValues.phone.replace(/\D/g, '').length < 8) {
-      newErrors.phone = 'Solo números (o +) y mínimo 8 dígitos.';
-    }
-
-    if (!formValues.email.trim()) {
-      newErrors.email = 'Ingrese un email.';
-    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/i.test(formValues.email.trim())) {
-      newErrors.email = 'Ingrese un email válido.';
-    }
-
-    if (!formValues.insurance) {
-      newErrors.insurance = 'Seleccione una obra social.';
-    }
-
-    if (!selectedSlot) {
-      newErrors.slot = 'Seleccione un horario disponible.';
-    } else {
+    const next = {};
+    const name = formValues.patientName.trim();
+    if (!name || name.length < 3) next.patientName = 'Ingresá un nombre válido (mínimo 3 caracteres).';
+    const phone = formValues.phone.trim();
+    if (!phone) next.phone = 'Ingresá un teléfono válido.';
+    else if (!/^[0-9+]+$/.test(phone) || phone.replace(/\D/g, '').length < 8) next.phone = 'Solo números (o +) y mínimo 8 dígitos.';
+    const email = formValues.email.trim();
+    if (!email) next.email = 'Ingresá un email.';
+    else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/i.test(email)) next.email = 'Ingresá un email válido.';
+    if (!formValues.insurance) next.insurance = 'Seleccioná una obra social.';
+    if (!selectedSlot) next.slot = 'Seleccioná un horario disponible.';
+    else {
       const slotDate = dayjs(selectedSlot);
-      if (!slotDate.isValid() || slotDate.valueOf() < dayjs().valueOf()) {
-        newErrors.slot = 'El turno seleccionado ya no está disponible.';
-      }
+      if (!slotDate.isValid() || slotDate.valueOf() < dayjs().valueOf()) next.slot = 'El turno seleccionado ya no está disponible.';
     }
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
+    setErrors(next);
+    return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!validate()) {
-      return;
-    }
-
-    const patientEmail = formValues.email.trim();
-    showNotification('Turno solicitado. Recibirás un correo de confirmación.', 'success');
-    setEmailInfo(`Email enviado a ${patientEmail}`);
-    onBooked?.({
-      ...formValues,
-      slotISO: selectedSlot,
-    });
-    setFormValues(initialValues);
-    setSelectedSlot('');
-  };
-
-  const hasInsurances = insurances.length > 0;
   const selectedSlotLabel = useMemo(
     () => (selectedSlot ? dayjs(selectedSlot).format('DD/MM/YYYY HH:mm') : ''),
     [selectedSlot]
   );
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!validate()) return;
+    showNotification('Turno solicitado. Recibirás un correo de confirmación.', 'success');
+    setFormValues(initialValues);
+    setSelectedSlot('');
+  };
+
+  const hasInsurances = insurances.length > 0;
+
   return (
     <Box component="section" sx={{ py: { xs: 8, md: 10 } }}>
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        noValidate
-        sx={{
-          maxWidth: 720,
-          mx: 'auto',
-          px: { xs: 2, sm: 0 },
-        }}
-      >
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ maxWidth: 720, mx: 'auto', px: { xs: 2, sm: 0 } }}>
         <Box sx={{ mb: 4, textAlign: 'center' }}>
           <Typography variant="h4" component="h2" fontWeight={700} gutterBottom>
             Reservar turno
@@ -136,7 +90,7 @@ const AppointmentForm = ({ onBooked }) => {
         </Box>
 
         <Grid container spacing={3}>
-          <Grid size={12}>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               required
@@ -149,7 +103,7 @@ const AppointmentForm = ({ onBooked }) => {
               inputProps={{ 'aria-label': 'Nombre y apellido del paciente' }}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               required
@@ -162,7 +116,7 @@ const AppointmentForm = ({ onBooked }) => {
               inputProps={{ inputMode: 'tel', 'aria-label': 'Teléfono de contacto' }}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               required
@@ -176,7 +130,7 @@ const AppointmentForm = ({ onBooked }) => {
               inputProps={{ 'aria-label': 'Correo electrónico' }}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid item xs={12} sm={6}>
             <FormControl fullWidth required error={Boolean(errors.insurance)}>
               <InputLabel id="appointment-insurance-label">Obra social</InputLabel>
               <Select
@@ -206,45 +160,18 @@ const AppointmentForm = ({ onBooked }) => {
               </Alert>
             )}
           </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <TextField
-              fullWidth
-              label="Horario elegido"
-              value={selectedSlotLabel}
-              InputProps={{ readOnly: true }}
-              placeholder="Seleccione un horario en la turnera"
-            />
+          <Grid item xs={12} sm={6}>
+            <TextField fullWidth label="Horario elegido" value={selectedSlotLabel} InputProps={{ readOnly: true }} placeholder="Seleccioná un horario en la turnera" />
           </Grid>
-          <Grid size={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="large"
-              fullWidth
-              disabled={!hasInsurances}
-            >
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" color="primary" size="large" fullWidth disabled={!hasInsurances}>
               Reservar turno
             </Button>
           </Grid>
         </Grid>
-
-        {emailInfo && (
-          <Alert severity="info" sx={{ mt: 3 }}>
-            {emailInfo}
-          </Alert>
-        )}
       </Box>
     </Box>
   );
 };
 
-AppointmentForm.propTypes = {
-  onBooked: PropTypes.func,
-};
-
-AppointmentForm.defaultProps = {
-  onBooked: undefined,
-};
-
-export default AppointmentForm;
+export default AppointmentForm2;
