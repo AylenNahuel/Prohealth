@@ -8,7 +8,7 @@ import VaccinesIcon from '@mui/icons-material/Vaccines';
 const services = [
   {
     title: 'Consultas integrales',
-    description: 'Evaluacion clinica completa, seguimiento de enfermedades cronicas y chequeos preventivos.',
+    description: 'Evaluación clínica completa, seguimiento de enfermedades crónicas y chequeos preventivos.',
     icon: MedicalServicesIcon,
   },
   {
@@ -22,6 +22,7 @@ const services = [
     icon: HealingIcon,
   },
   {
+    title: 'Vacunación y prevención',
     title: 'Prevención de enfermedades',
     description: 'Calendario de vacunas adultos, control de factores de riesgo y educación sanitaria.',
     icon: VaccinesIcon,

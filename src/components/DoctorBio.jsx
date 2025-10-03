@@ -1,5 +1,6 @@
 import { Avatar, Box, Card, CardContent, Container, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import doctorImg from '../assets/foto-bio.png'; 
 
 const DoctorBio = () => (
   <Box component="section" sx={{ py: { xs: 8, md: 10 } }}>
@@ -8,13 +9,13 @@ const DoctorBio = () => (
         <Grid size={{ xs: 12, md: 4 }}>
           <Card sx={{ textAlign: 'center', py: 4 }}>
             <Avatar
-              alt="Dra. Camila Gomez"
-              src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=400&q=80"
+              alt="Dr. Juan Pérez"
+              src={doctorImg}
               sx={{ width: 160, height: 160, mx: 'auto', mb: 2 }}
             />
             <CardContent>
               <Typography variant="h5" fontWeight={700} gutterBottom>
-                Dra. Camila Gomez
+                Dr. Juan Pérez
               </Typography>
               <Typography variant="subtitle1" color="text.secondary">
                 Especialista en Medicina Interna
@@ -25,23 +26,23 @@ const DoctorBio = () => (
         <Grid size={{ xs: 12, md: 8 }}>
           <Stack spacing={2}>
             <Typography variant="h4" component="h2" fontWeight={700}>
-              Sobre el medico
+              Sobre el médico
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Con más de 15 años de experiencia en medicina interna, la Dra. Gomez acompaña a sus pacientes con un enfoque humano y basado en evidencia. Ha liderado equipos interdisciplinarios en clínicas privadas y hospitales públicos de la región.
+              Con más de 15 años de experiencia en medicina interna, el Dr. Pérez acompaña a sus pacientes con un enfoque humano y basado en evidencia. Ha liderado equipos interdisciplinarios en clínicas privadas y hospitales públicos de la región.
             </Typography>
             <Stack spacing={1}>
               <Typography variant="subtitle1" fontWeight={600}>
                 Formación
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                - Médica egresada de la Universidad de Buenos Aires (UBA)
+                - Médico egresado de la Universidad de Buenos Aires (UBA)
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                - Residencia completa en Clínica Médica - Hospital Italiano
+                - Residencia completa en Clínica Médica – Hospital Italiano
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                - Fellow en Medicina Interna Avanzada - Mayo Clinic
+                - Fellow en Medicina Interna Avanzada – Mayo Clinic
               </Typography>
             </Stack>
             <Grid container spacing={2}>
@@ -52,7 +53,7 @@ const DoctorBio = () => (
                       Matrícula
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      MN 123456 - MP 654321
+                      MN 123456 · MP 654321
                     </Typography>
                   </CardContent>
                 </Card>

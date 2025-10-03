@@ -122,7 +122,7 @@ const AppointmentForm = ({ onBooked }) => {
             Reservar turno
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Elige el día y horario disponibles, completa tus datos y nos comunicaremos para confirmar el turno.
+            Elegí el día y horario disponibles, completá tus datos y nos comunicaremos para confirmar el turno.
           </Typography>
         </Box>
 

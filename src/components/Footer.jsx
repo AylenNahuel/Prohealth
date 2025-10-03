@@ -7,7 +7,7 @@ const Footer = () => (
   <Box component="footer" sx={{ py: 4, backgroundColor: 'primary.main', color: 'primary.contrastText' }}>
     <Container maxWidth="lg">
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="space-between" alignItems="center">
-        <Typography variant="body2">© {new Date().getFullYear()} ProHealth. Todos los derechos reservados.</Typography>
+        <Typography variant="body2">Â© {new Date().getFullYear()} ProHealth. Todos los derechos reservados.</Typography>
         <Stack direction="row" spacing={1}>
           <IconButton aria-label="Facebook" color="inherit" href="https://facebook.com" target="_blank" rel="noopener">
             <FacebookIcon />

@@ -35,6 +35,7 @@ const computeMetrics = () => {
   const now = dayjs();
   const weekLimit = now.add(7, 'day').endOf('day');
 
+
   const solicitadasSemana = APPOINTMENT_MOCKS.filter(({ estado, slotISO }) => {
     const slot = dayjs(slotISO);
     return estado === 'SOLICITADA' && slot.isSameOrAfter(now) && slot.isBefore(weekLimit);

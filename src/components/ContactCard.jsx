@@ -15,7 +15,7 @@ const ContactCard = () => (
                 Contacto
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-                Agendá tu consulta o envianos tus estudios para una segunda opinión. Estamos para ayudarte.
+                AgendÃ¡ tu consulta o envianos tus estudios para una segunda opiniÃ³n. Estamos para ayudarte.
               </Typography>
               <Stack spacing={2}>
                 <Stack direction="row" spacing={2} alignItems="center">
@@ -58,7 +58,7 @@ const ContactCard = () => (
         <Grid size={{ xs: 12, md: 7 }}>
           <Box
             component="iframe"
-            title="Ubicación del consultorio"
+            title="UbicaciÃ³n del consultorio"
             src="https://maps.google.com/maps?q=obelisco%20buenos%20aires&t=&z=13&ie=UTF8&iwloc=&output=embed"
             sx={{
               border: 0,

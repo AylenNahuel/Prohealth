@@ -19,11 +19,13 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleOutline';
 import TodayIcon from '@mui/icons-material/TodayOutlined';
 import { APPOINTMENT_MOCKS } from '../mocks/appointments.data';
+import { useTheme } from '@mui/material/styles';
 
 const iconMap = {
   solicitadas: CalendarMonthIcon,
@@ -56,6 +58,8 @@ const computeMetrics = () => {
 
 const AdminDashboard2 = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // xs
 
   const { solicitadasSemana, confirmadasSemana, proximasHoy, proximas } = useMemo(() => computeMetrics(), []);
 
@@ -76,11 +80,11 @@ const AdminDashboard2 = () => {
             Datos actualizados de tus turnos para tomar acción rápidamente.
           </Typography>
         </Box>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
-          <Button variant="outlined" onClick={() => navigate('/admin/appointments')}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} sx={{ width: { xs: '100%', sm: 'auto' } }}>
+          <Button fullWidth variant="outlined" onClick={() => navigate('/admin/appointments')}>
             Gestionar citas
           </Button>
-          <Button variant="contained" onClick={() => navigate('/admin/insurances')}>
+          <Button fullWidth variant="contained" onClick={() => navigate('/admin/insurances')}>
             Obras sociales
           </Button>
         </Stack>
@@ -97,8 +101,8 @@ const AdminDashboard2 = () => {
                     <Avatar
                       variant="rounded"
                       sx={{
-                        bgcolor: (theme) => alpha(theme.palette[color].main, 0.12),
-                        color: (theme) => theme.palette[color].main,
+                        bgcolor: (t) => alpha(t.palette[color].main, 0.12),
+                        color: (t) => t.palette[color].main,
                         width: 64,
                         height: 64,
                       }}
@@ -121,8 +125,14 @@ const AdminDashboard2 = () => {
         })}
       </Grid>
 
-      <Paper elevation={3} sx={{ borderRadius: 3, p: 3 }}>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} sx={{ mb: 2 }}>
+      <Paper elevation={3} sx={{ borderRadius: 3, p: { xs: 2, md: 3 } }}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={1}
+          justifyContent="space-between"
+          alignItems={{ xs: 'flex-start', sm: 'center' }}
+          sx={{ mb: 2 }}
+        >
           <Box>
             <Typography variant="h6" fontWeight={600}>
               Próximos turnos
@@ -136,44 +146,74 @@ const AdminDashboard2 = () => {
           </Button>
         </Stack>
 
-        <TableContainer>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Paciente</TableCell>
-                <TableCell>Obra social</TableCell>
-                <TableCell>Fecha/Hora</TableCell>
-                <TableCell>Estado</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {proximas.map((appointment) => (
-                <TableRow key={appointment.id} hover>
-                  <TableCell>{appointment.nombre}</TableCell>
-                  <TableCell>{appointment.obra}</TableCell>
-                  <TableCell>{dayjs(appointment.slotISO).format('DD/MM/YYYY HH:mm')}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={appointment.estado}
-                      size="small"
-                      color={appointment.estado === 'CONFIRMADA' ? 'success' : 'default'}
-                      variant={appointment.estado === 'CONFIRMADA' ? 'filled' : 'outlined'}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-              {proximas.length === 0 && (
+        {/* XS: lista compacta / SM+: tabla */}
+        {isMobile ? (
+          <Stack spacing={1}>
+            {proximas.map((a) => (
+              <Card key={a.id} elevation={2} sx={{ borderRadius: 3 }}>
+                <CardContent>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    {a.nombre}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {dayjs(a.slotISO).format('DD/MM/YYYY HH:mm')}
+                  </Typography>
+                  <Chip
+                    sx={{ mt: 1 }}
+                    label={a.estado}
+                    size="small"
+                    color={a.estado === 'CONFIRMADA' ? 'success' : 'default'}
+                    variant={a.estado === 'CONFIRMADA' ? 'filled' : 'outlined'}
+                  />
+                </CardContent>
+              </Card>
+            ))}
+            {proximas.length === 0 && (
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                No hay turnos próximos programados.
+              </Typography>
+            )}
+          </Stack>
+        ) : (
+          <TableContainer sx={{ overflowX: 'auto' }}>
+            <Table size="small" sx={{ minWidth: 600 }}>
+              <TableHead>
                 <TableRow>
-                  <TableCell colSpan={4} align="center">
-                    <Typography variant="body2" color="text.secondary">
-                      No hay turnos próximos programados.
-                    </Typography>
-                  </TableCell>
+                  <TableCell>Paciente</TableCell>
+                  <TableCell>Obra social</TableCell>
+                  <TableCell>Fecha/Hora</TableCell>
+                  <TableCell>Estado</TableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {proximas.map((a) => (
+                  <TableRow key={a.id} hover>
+                    <TableCell>{a.nombre}</TableCell>
+                    <TableCell>{a.obra}</TableCell>
+                    <TableCell>{dayjs(a.slotISO).format('DD/MM/YYYY HH:mm')}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={a.estado}
+                        size="small"
+                        color={a.estado === 'CONFIRMADA' ? 'success' : 'default'}
+                        variant={a.estado === 'CONFIRMADA' ? 'filled' : 'outlined'}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {proximas.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={4} align="center">
+                      <Typography variant="body2" color="text.secondary">
+                        No hay turnos próximos programados.
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Paper>
     </Box>
   );

@@ -2,6 +2,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Button, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { Link as RouterLink } from 'react-router-dom';
+import consultaImg from '../assets/consulta-medica.jpg';
 
 const Hero = () => (
   <Box
@@ -18,13 +19,13 @@ const Hero = () => (
       <Grid container spacing={6} alignItems="center">
         <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="overline" color="primary" sx={{ letterSpacing: 2 }}>
-            Atención médica personalizada
+            Atención  médica personalizada
           </Typography>
           <Typography variant="h2" component="h1" sx={{ fontWeight: 700, mt: 2, mb: 3 }}>
-            Cuido de tu salud con excelencia y cercanía
+            Cuido de tu salud con excelencia y cercanía 
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
-            Agenda tu consulta con la Dra. Camila Gomez, especialista en medicina interna con más de 15 años de experiencia.
+            Agendá tu consulta con el Dr. Juan Pérez, especialista en medicina interna con más de 15 años de experiencia.
           </Typography>
           <Button
             variant="contained"
@@ -39,7 +40,7 @@ const Hero = () => (
         <Grid size={{ xs: 12, md: 6 }}>
           <Box
             component="img"
-            src="https://images.unsplash.com/photo-1579155273739-e0ad33a6ab29?auto=format&fit=crop&w=900&q=80"
+            src={consultaImg}
             alt="Consulta médica"
             sx={{
               width: '100%',
@@ -56,3 +57,4 @@ const Hero = () => (
 );
 
 export default Hero;
+
