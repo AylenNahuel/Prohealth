@@ -55,6 +55,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
 
   return (
     <Stack spacing={3}>
+      {/* Carrusel de días */}
       <Box sx={{ overflowX: 'auto', pb: 1 }}>
         <Stack
           direction="row"
@@ -93,6 +94,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
         </Stack>
       </Box>
 
+      {/* Lista de horarios */}
       <Box>
         <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
           Horarios disponibles
@@ -102,7 +104,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
             const isOccupied = occupiedSet.has(slot.iso);
             const isSelected = selectedSlot === slot.iso;
             return (
-              <Grid item key={slot.iso} xs={4} sm={3} md={2}>
+              <Grid item key={slot.iso} xs={6} sm={4} md={2}>
                 <Chip
                   label={slot.label}
                   onClick={() => handleSlotClick(slot.iso)}
@@ -119,12 +121,17 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
                       : isOccupied
                       ? 'divider'
                       : 'rgba(0,0,0,0.08)',
-                    bgcolor: isOccupied ? 'action.disabledBackground' : 'background.paper',
-                    color: isOccupied ? 'text.disabled' : undefined,
                     fontWeight: isSelected ? 600 : 500,
                     '&.Mui-disabled': {
                       opacity: 1,
                     },
+                    ...(isOccupied && {
+                      bgcolor: 'action.disabledBackground',
+                      color: 'text.disabled',
+                    }),
+                    ...(!isOccupied && !isSelected && {
+                      bgcolor: 'background.paper',
+                    }),
                   }}
                   size={isMobile ? 'small' : 'medium'}
                 />
