@@ -2,13 +2,10 @@ import { Box, Container, Typography } from '@mui/material';
 import AppointmentForm from '../components/AppointmentForm2';
 
 const AppointmentsPage = () => (
-  <Box sx={{ py: { xs: 6, md: 8 } }}>
+  <Box sx={{ py: { xs: 4, md: 6 } }}>
     <Container maxWidth="lg">
-      <Typography variant="h3" component="h1" fontWeight={700} textAlign="center" sx={{ mb: 4 }}>
-        Solicitar un turno
-      </Typography>
+      <AppointmentForm />
     </Container>
-    <AppointmentForm />
   </Box>
 );
 

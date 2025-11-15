@@ -29,8 +29,13 @@ const AppointmentForm2 = () => {
     setSlotsLoading(true);
     setSlotsError('');
     try {
-      const confirmed = await apiClient.get('/appointments?status=CONFIRMADA');
-      setOccupiedSlots(confirmed.map((appointment) => appointment.slotISO));
+      // Traemos todos los turnos y marcamos como ocupados
+      // los que no están cancelados (SOLICITADA o CONFIRMADA).
+      const appointments = await apiClient.get('/appointments');
+      const busy = appointments
+        .filter((appointment) => appointment.status !== 'CANCELADA')
+        .map((appointment) => appointment.slotISO);
+      setOccupiedSlots(busy);
     } catch (err) {
       console.error('AppointmentForm: error fetching occupied slots', err);
       setSlotsError(err.message || 'No se pudo cargar la disponibilidad.');

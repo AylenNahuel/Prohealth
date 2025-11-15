@@ -4,7 +4,7 @@ INSERT INTO Insurances (Id, Nombre) VALUES
   ('osde', 'OSDE'),
   ('swiss', 'Swiss Medical'),
   ('galeno', 'Galeno'),
-  ('medife', 'Medifé'),
+  ('medife', 'Medife'),
   ('ioma', 'IOMA'),
   ('omint', 'OMINT')
 ON DUPLICATE KEY UPDATE Nombre = VALUES(Nombre);
@@ -17,6 +17,7 @@ DELETE FROM Appointments;
 
 INSERT INTO Appointments (PatientName, Phone, Email, InsuranceId, SlotDate, Status)
 VALUES
-  ('Juan Pérez', '1122334455', 'juanp@example.com', 'osde', DATE_ADD(UTC_TIMESTAMP(), INTERVAL 2 HOUR), 'SOLICITADA'),
-  ('María López', '1199887766', 'maria@example.com', 'swiss', DATE_ADD(UTC_TIMESTAMP(), INTERVAL 1 DAY), 'CONFIRMADA'),
-  ('Carlos Rodríguez', '1133557799', 'carlosr@example.com', 'galeno', DATE_ADD(UTC_TIMESTAMP(), INTERVAL 2 DAY), 'SOLICITADA');
+  ('Juan Perez', '1122334455', 'juanp@example.com', 'osde', DATE_ADD(UTC_TIMESTAMP(), INTERVAL 2 HOUR), 'SOLICITADA'),
+  ('Maria Lopez', '1199887766', 'maria@example.com', 'swiss', DATE_ADD(UTC_TIMESTAMP(), INTERVAL 1 DAY), 'CONFIRMADA'),
+  ('Carlos Rodriguez', '1133557799', 'carlosr@example.com', 'galeno', DATE_ADD(UTC_TIMESTAMP(), INTERVAL 2 DAY), 'SOLICITADA');
+

@@ -110,19 +110,17 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
               borderColor: isSelected
                 ? 'primary.main'
                 : isOccupied
-                ? 'divider'
+                ? theme.palette.grey[400]
                 : 'rgba(0,0,0,0.08)',
               fontWeight: isSelected ? 600 : 500,
               '&.Mui-disabled': {
                 opacity: 1,
-                textDecoration: 'line-through',
               },
               ...(isOccupied && {
-                bgcolor: 'action.disabledBackground',
-                color: 'text.disabled',
-                textDecoration: 'line-through',
+                bgcolor: theme.palette.grey[300],
+                color: theme.palette.grey[700],
                 '& .MuiChip-label': {
-                  textDecoration: 'line-through',
+                  color: theme.palette.grey[700],
                 },
               }),
               ...(!isOccupied && !isSelected && {
