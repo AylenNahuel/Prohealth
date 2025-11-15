@@ -103,6 +103,40 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
           {selectedDay?.slots.map((slot) => {
             const isOccupied = occupiedSet.has(slot.iso);
             const isSelected = selectedSlot === slot.iso;
+            const chipStyles = {
+              width: '100%',
+              justifyContent: 'center',
+              borderWidth: 2,
+              borderColor: isSelected
+                ? 'primary.main'
+                : isOccupied
+                ? 'divider'
+                : 'rgba(0,0,0,0.08)',
+              fontWeight: isSelected ? 600 : 500,
+              '&.Mui-disabled': {
+                opacity: 1,
+                textDecoration: 'line-through',
+              },
+              ...(isOccupied && {
+                bgcolor: 'action.disabledBackground',
+                color: 'text.disabled',
+                textDecoration: 'line-through',
+                '& .MuiChip-label': {
+                  textDecoration: 'line-through',
+                },
+              }),
+              ...(!isOccupied && !isSelected && {
+                bgcolor: 'background.paper',
+              }),
+              ...(isSelected && {
+                '& .MuiChip-label': {
+                  textDecoration: 'none',
+                },
+              }),
+              '& .MuiChip-label': {
+                fontWeight: isSelected ? 600 : 500,
+              },
+            };
             return (
               <Grid item key={slot.iso} xs={6} sm={4} md={2}>
                 <Chip
@@ -112,27 +146,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
                   disabled={isOccupied}
                   color={isSelected ? 'primary' : 'default'}
                   variant={isSelected ? 'filled' : 'outlined'}
-                  sx={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    borderWidth: 2,
-                    borderColor: isSelected
-                      ? 'primary.main'
-                      : isOccupied
-                      ? 'divider'
-                      : 'rgba(0,0,0,0.08)',
-                    fontWeight: isSelected ? 600 : 500,
-                    '&.Mui-disabled': {
-                      opacity: 1,
-                    },
-                    ...(isOccupied && {
-                      bgcolor: 'action.disabledBackground',
-                      color: 'text.disabled',
-                    }),
-                    ...(!isOccupied && !isSelected && {
-                      bgcolor: 'background.paper',
-                    }),
-                  }}
+                  sx={chipStyles}
                   size={isMobile ? 'small' : 'medium'}
                 />
               </Grid>

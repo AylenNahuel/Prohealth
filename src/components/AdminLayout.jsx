@@ -21,6 +21,7 @@ import DashboardIcon from '@mui/icons-material/SpaceDashboardOutlined';
 import EventNoteIcon from '@mui/icons-material/EventNoteOutlined';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServicesOutlined';
 import LogoutIcon from '@mui/icons-material/LogoutRounded';
+import { apiClient } from '../services/apiClient';
 
 const drawerWidth = 260;
 
@@ -44,6 +45,8 @@ const AdminLayout = () => {
   const handleNavigate = (to) => {
     if (to === 'logout') {
       localStorage.removeItem('auth');
+      localStorage.removeItem('authUser');
+      apiClient.clearToken();
       navigate('/login', { replace: true });
       return;
     }
