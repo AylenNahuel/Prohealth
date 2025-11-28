@@ -55,7 +55,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
 
   return (
     <Stack spacing={3}>
-      {/* Carrusel de días */}
+
       <Box sx={{ overflowX: 'auto', pb: 1 }}>
         <Stack
           direction="row"
@@ -94,7 +94,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
         </Stack>
       </Box>
 
-      {/* Lista de horarios */}
+
       <Box>
         <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
           Horarios disponibles

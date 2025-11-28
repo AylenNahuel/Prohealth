@@ -1,6 +1,14 @@
 import { useMemo } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
-import { Box, Button, Card, CardContent, Container, Grid, Skeleton, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Typography,
+} from '@mui/material';
 import useInsurances from '../hooks/useInsurances';
 import osdeLogo from '../assets/osde.png';
 import iomaLogo from '../assets/ioma.png';
@@ -20,27 +28,27 @@ const LOGO_MAP = {
 
 const BRAND_DETAILS = {
   osde: {
-    description: 'Cobertura nacional y cartilla integral para empresas.',
+    description: 'Cobertura nacional con amplia red de prestadores.',
     segment: 'Plan premium',
   },
   ioma: {
-    description: 'Obra social provincial con amplia red en Buenos Aires.',
+    description: 'Cobertura provincial con servicios de salud básicos.',
     segment: 'Provincia BA',
   },
   galeno: {
-    description: 'Planes corporativos y medicina prepaga personalizada.',
+    description: 'Planes médicos completos con red amplia y flexible.',
     segment: 'Prepaga',
   },
   medife: {
-    description: 'Planes jovenes y familiares con red propia.',
+    description: 'Planes familiares con servicios médicos de calidad.',
     segment: 'Familias',
   },
   omint: {
-    description: 'Cobertura internacional y cartilla premium.',
+    description: 'Cobertura premium con atención médica especializada.',
     segment: 'Internacional',
   },
   swiss: {
-    description: 'Planes corporativos y medicina privada de alta complejidad.',
+    description: 'Atención integral con planes médicos corporativos.',
     segment: 'Corporativo',
   },
 };
@@ -55,7 +63,7 @@ const getBrandMeta = (insurance) => {
   };
 };
 
-const CARD_HEIGHT = 340;
+const CARD_HEIGHT = { xs: 320, sm: 340, md: 360 };
 
 const InsuranceList = () => {
   const { insurances, loading, error } = useInsurances();
@@ -78,25 +86,37 @@ const InsuranceList = () => {
       id="obras-sociales"
       sx={{
         py: { xs: 8, md: 10 },
-        backgroundColor: 'background.paper',
+        bgcolor: 'background.paper',
       }}
     >
       <Container maxWidth="lg">
-        <Typography variant="h4" component="h2" fontWeight={700} textAlign="center" gutterBottom>
+        <Typography
+          variant="h4"
+          component="h2"
+          fontWeight={700}
+          textAlign="center"
+          gutterBottom
+        >
           Obras Sociales
         </Typography>
+
         <Typography
           variant="body1"
           color="text.secondary"
           textAlign="center"
           sx={{ maxWidth: 560, mx: 'auto', mb: 4 }}
         >
-          Trabajo con las principales obras sociales y prepagas para que puedas acceder a tu consulta sin
-          complicaciones.
+          Trabajo con las principales obras sociales y prepagas para que
+          puedas acceder a tu consulta sin complicaciones.
         </Typography>
 
         {error && (
-          <Typography variant="body2" color="error" textAlign="center" sx={{ mb: 2 }}>
+          <Typography
+            variant="body2"
+            color="error"
+            textAlign="center"
+            sx={{ mb: 2 }}
+          >
             {error}
           </Typography>
         )}
@@ -104,16 +124,22 @@ const InsuranceList = () => {
         {loading && !hasData && (
           <Grid container spacing={3} alignItems="stretch">
             {Array.from({ length: 6 }).map((_, index) => (
-              <Grid key={index} item xs={12} sm={6} md={4} sx={{ display: 'flex' }}>
+              <Grid
+                key={index}
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                sx={{ display: 'flex' }}
+              >
                 <Card
                   sx={{
-                    height: CARD_HEIGHT,
                     borderRadius: 4,
                     boxShadow: 3,
+                    width: '100%',
+                    height: CARD_HEIGHT, 
                   }}
-                >
-                  <CardContent />
-                </Card>
+                />
               </Grid>
             ))}
           </Grid>
@@ -121,22 +147,35 @@ const InsuranceList = () => {
 
         {!loading && !hasData && (
           <Typography variant="body2" color="text.secondary" textAlign="center">
-            Aun no hay obras sociales cargadas.
+            Aún no hay obras sociales cargadas.
           </Typography>
         )}
 
         {hasData && (
           <Grid container spacing={3} alignItems="stretch">
             {cards.map((item) => (
-              <Grid key={item.id} item xs={12} sm={6} md={4} sx={{ display: 'flex' }}>
+              <Grid
+                key={item.id}
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                sx={{ display: 'flex' }}
+              >
                 <Card
                   elevation={3}
                   sx={{
-                    height: CARD_HEIGHT,
                     borderRadius: 4,
                     boxShadow: 3,
                     display: 'flex',
                     flexDirection: 'column',
+                    width: '100%',
+                    height: CARD_HEIGHT, 
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: 6,
+                    },
                   }}
                 >
                   <CardContent
@@ -152,8 +191,8 @@ const InsuranceList = () => {
                   >
                     <Box
                       sx={{
-                        width: 96,
-                        height: 96,
+                        width: { xs: 82, sm: 96 },
+                        height: { xs: 82, sm: 96 },
                         borderRadius: '50%',
                         bgcolor: theme.palette.background.paper,
                         boxShadow: 3,
@@ -166,15 +205,26 @@ const InsuranceList = () => {
                     >
                       {item.brand.logo ? (
                         <Box
-                          component="img"
-                          src={item.brand.logo}
-                          alt={`Logo ${item.nombre}`}
                           sx={{
-                            width: '80%',
-                            height: '80%',
-                            objectFit: 'contain',
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                           }}
-                        />
+                        >
+                          <Box
+                            component="img"
+                            src={item.brand.logo}
+                            alt={`Logo ${item.nombre}`}
+                            sx={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'contain',
+                              objectPosition: 'center',
+                            }}
+                          />
+                        </Box>
                       ) : (
                         <Typography
                           variant="subtitle1"
@@ -201,7 +251,7 @@ const InsuranceList = () => {
                           px: 2.5,
                           py: 0.75,
                           borderRadius: 999,
-                          bgcolor: alpha(accentColor, 0.1),
+                          bgcolor: alpha(accentColor, 0.08),
                           color: accentColor,
                           fontSize: '0.8rem',
                           fontWeight: 600,
@@ -219,7 +269,12 @@ const InsuranceList = () => {
 
         {hasData && (
           <Box textAlign="center" sx={{ mt: 5 }}>
-            <Button href="/appointments" variant="contained" color="primary" size="large">
+            <Button
+              href="/appointments"
+              variant="contained"
+              color="primary"
+              size="large"
+            >
               Reservar turno con mi cobertura
             </Button>
           </Box>
@@ -230,3 +285,7 @@ const InsuranceList = () => {
 };
 
 export default InsuranceList;
+
+
+
+

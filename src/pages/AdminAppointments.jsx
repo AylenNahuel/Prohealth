@@ -204,7 +204,7 @@ const AdminAppointments = () => {
         </Typography>
       )}
 
-      {/* ---------- vista XS: tarjetas ---------- */}
+
       {isMobile && (
         <Stack spacing={1.5}>
           {paginatedAppointments.map((a) => {
@@ -287,7 +287,7 @@ const AdminAppointments = () => {
             </Paper>
           )}
 
-          {/* paginación también para xs */}
+
           <Paper elevation={0} sx={{ mt: 1 }}>
             <TablePagination
               component="div"
@@ -301,7 +301,7 @@ const AdminAppointments = () => {
         </Stack>
       )}
 
-      {/* ---------- vista SM+ : tabla clásica ---------- */}
+
       {isTabletUp && (
         <Paper elevation={3} sx={{ p: { xs: 2, md: 3 }, borderRadius: 3 }}>
           <TableContainer sx={{ overflowX: 'auto' }}>

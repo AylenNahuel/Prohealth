@@ -29,8 +29,7 @@ const AppointmentForm2 = () => {
     setSlotsLoading(true);
     setSlotsError('');
     try {
-      // Traemos todos los turnos y marcamos como ocupados
-      // los que no están cancelados (SOLICITADA o CONFIRMADA).
+      
       const appointments = await apiClient.get('/appointments');
       const busy = appointments
         .filter((appointment) => appointment.status !== 'CANCELADA')
@@ -183,7 +182,12 @@ const AppointmentForm2 = () => {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth required error={Boolean(errors.insurance)}>
+            <FormControl
+              fullWidth
+              required
+              error={Boolean(errors.insurance)}
+              sx={{ minWidth: 0 }}
+            >
               <InputLabel id="appointment-insurance-label">Obra social</InputLabel>
               <Select
                 labelId="appointment-insurance-label"
@@ -193,6 +197,15 @@ const AppointmentForm2 = () => {
                 onChange={handleChange}
                 inputProps={{ 'aria-label': 'Obra social' }}
                 disabled={!hasInsurances}
+                sx={{
+                  mt: 0.5,
+                  width: '100%',
+                  '& .MuiSelect-select': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                  },
+                }}
               >
                 {insurances.map((insurance) => (
                   <MenuItem key={insurance.id} value={insurance.id}>
