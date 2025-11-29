@@ -1,7 +1,12 @@
 const createError = require('http-errors');
 const { getPool } = require('../config/database');
 const APPOINTMENT_STATUS = require('../constants/appointmentStatus');
-const { sendAppointmentNotification } = require('./email.service');
+const {
+  sendAppointmentNotification,
+  sendAppointmentCancellation,
+  sendAppointmentConfirmation,
+} = require('./email.service');
+
 
 const baseSelect = `
   SELECT
@@ -106,15 +111,35 @@ const create = async ({ patientName, phone, email, insuranceId, slotISO, notes =
 
 const updateStatus = async ({ id, status }) => {
   const pool = await getPool();
-  const [result] = await pool.execute(
+
+  const before = await findById(id);
+  if (!before) {
+    throw createError(404, 'Turno no encontrado.');
+  }
+
+  await pool.execute(
     'UPDATE Appointments SET Status = ?, UpdatedAt = UTC_TIMESTAMP() WHERE Id = ?',
     [status, id]
   );
-  if (result.affectedRows === 0) {
-    throw createError(404, 'Turno no encontrado.');
+
+  const updated = await findById(id);
+
+  try {
+    if (status === APPOINTMENT_STATUS.CANCELLED && before.status !== APPOINTMENT_STATUS.CANCELLED) {
+      await sendAppointmentCancellation(updated);
+    } else if (
+      status === APPOINTMENT_STATUS.CONFIRMED &&
+      before.status !== APPOINTMENT_STATUS.CONFIRMED
+    ) {
+      await sendAppointmentConfirmation(updated);
+    }
+  } catch (error) {
+    console.error('[email] Error al enviar notificación de estado', error);
   }
-  return findById(id);
+
+  return updated;
 };
+
 
 const remove = async (id) => {
   const pool = await getPool();
