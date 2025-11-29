@@ -1,55 +1,250 @@
-# TPO ñ Sistema de Turnos MÈdicos
+# ProHealth ‚Äì Sistema de Turnos M√©dicos
 
-AplicaciÛn frontend construida en React para gestionar reservas de turnos de un consultorio mÈdico. Incluye landing p˙blica, turnera interactiva, formulario de solicitud, login demo, panel administrativo y CRUD de obras sociales con persistencia en LocalStorage.
+## Datos de la entrega
 
-## Stack
-- React 18 (Create React App)
-- Material UI 5
-- React Router DOM 6
+- **Materia:** Aplicaciones Interactivas  
+- **Docentes:** Mar√≠a Paula Sarasa y Francisco Fares  
+- **Grupo:** 2  
+- **Integrantes:**
+  - Martina Castro ‚Äì Legajo 1167379  
+  - Aylen Nahuel ‚Äì Legajo 1135727  
+
+---
+
+## 1. Descripci√≥n general
+
+Sistema completo de reserva y gesti√≥n de turnos para un consultorio m√©dico.
+
+El proyecto est√° dividido en dos partes:
+
+- **Frontend (React):** landing p√∫blica, turnera interactiva, formulario de reserva, p√°gina de obras sociales, login de administrador y panel de administraci√≥n.
+- **Backend (Node.js + Express + MySQL):** API REST que maneja autenticaci√≥n, obras sociales y turnos.
+
+---
+
+## 2. Stack tecnol√≥gico
+
+**Frontend**
+- React (Create React App)
+- Material UI (MUI)
+- React Router DOM
 - Dayjs
-- Context + hooks personalizados (notificaciones y obras sociales)
+- Context + hooks personalizados (notificaciones, obras sociales)
 
-## InstalaciÛn
-`ash
+**Backend**
+- Node.js + Express
+- MySQL 8
+- JWT para autenticaci√≥n
+- dotenv, cors, helmet, morgan
+
+---
+
+## 3. Requisitos previos
+
+- Node.js 18+  
+- npm  
+- MySQL 8 (local o Docker)
+
+---
+
+## 4. Instalaci√≥n de dependencias
+
+```bash
+# Clonar el repositorio
+git clone <URL_DEL_REPO>
+cd Prohealth_Martu
+
+# Frontend
 npm install
+
+# Backend
+cd server
+npm install
+```
+
+---
+
+## 5. Variables de entorno
+
+### Frontend (`/.env`)
+
+Desde la ra√≠z del proyecto:
+
+```bash
+cp .env.example .env
+```
+
+Contenido esperado:
+
+```env
+REACT_APP_API_URL=http://localhost:4000/api
+```
+
+### Backend (`/server/.env`)
+
+```bash
+cd server
+cp .env.example .env
+```
+
+Ejemplo de configuraci√≥n:
+
+```env
+PORT=4000
+APP_URL=http://localhost:3000
+
+JWT_SECRET=un-super-secreto-largo
+JWT_EXPIRATION=1d
+
+DB_SERVER=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=martucastro
+DB_NAME=ProHealth
+DB_SSL=false
+```
+
+> Ajustar `DB_USER` y `DB_PASSWORD` seg√∫n la instalaci√≥n local de MySQL.
+
+---
+
+## 6. Inicializar la base de datos
+
+Desde la ra√≠z del proyecto:
+
+```bash
+cd server
+
+# Crear base y tablas
+mysql -u root -pmartucastro < db/schema.sql
+
+# Cargar datos de ejemplo (obras sociales, admin, turnos)
+mysql -u root -pmartucastro < db/seed.sql
+```
+
+Esto crea la base `ProHealth` y carga:
+
+- Obras sociales: OSDE, IOMA, Galeno, Medife, OMINT, Swiss Medical.
+- Usuario administrador demo:
+  - **Email:** `admin@demo.com`
+  - **Password:** `Admin123!`
+- Algunos turnos de ejemplo.
+
+---
+
+## 7. C√≥mo levantar el proyecto
+
+### Backend (API)
+
+Desde `server/`:
+
+```bash
+npm run dev
+```
+
+API disponible en: `http://localhost:4000/api`
+
+### Frontend (React)
+
+En otra terminal, desde la **ra√≠z**:
+
+```bash
 npm start
-`
-La app corre en http://localhost:3000.
+```
 
-## Estructura de carpetas
-`
-/src
-  /components        # Navbar, Hero, Turnera, di·logos, NotificationProvider, etc.
-  /pages             # Home, Login, AdminDashboard, AdminAppointments, AdminInsurancesÖ
-  /hooks             # useInsurances, useNotifications
-  /mocks             # citas y obras sociales de ejemplo
-  /utils             # calendario, helpers de storage
-  /theme             # tema global de MUI
-  App.js / index.js
-`
+Frontend disponible en: `http://localhost:3000`
 
-## Funcionalidades entregadas
-- Landing completa con secciones Hero, Servicios, Bio, Obras Sociales y Contacto.
-- Turnera interactiva (14 dÌas h·biles, intervalos de 30 minutos) + formulario validado con mock de turnos ocupados.
-- Login demo (admin@demo.com / Admin123!).
-- Panel administrativo con dashboard, listado de citas y acciones de confirmaciÛn.
-- CRUD de obras sociales en memoria con persistencia en LocalStorage y reflejado en el formulario p˙blico.
-- Sistema de notificaciones mock (Snackbars) para creaciÛn y confirmaciÛn de turnos.
+---
 
-## PrÛximos pasos
-- Integrar backend Node/Express con base de datos (SQL/NoSQL).
-- Persistir citas reales, confirmar turnos vÌa API y enviar correos con nodemailer.
-- Implementar autenticaciÛn real y manejo de sesiones.
-- AÒadir reportes y mÈtricas ampliadas en el panel.
+## 8. Funcionalidades entregadas
 
-## Autores / Facultad
-Trabajo Pr·ctico Final ñ Interactivas
-Universidad / C·tedra: [Completar informaciÛn institucional]
+### Parte p√∫blica
 
-## Checklist de la entrega
-- [x] Compila sin errores.
-- [x] Rutas p˙blicas/privadas y guards funcionando.
-- [x] Turnera operativa (14 dÌas h·biles, cada 30 minutos).
-- [x] Mock de turnos ocupados integrado.
-- [x] CRUD de obras sociales activo y visible en el selector del formulario.
-- [x] Snackbars y notificaciones alineadas al diseÒo.
+- Landing con secciones: Hero, Servicios, Bio, Obras Sociales y Contacto.
+- P√°gina de Obras Sociales con cards responsivas y logos.
+- Turnera interactiva (14 d√≠as h√°biles, intervalos de 30 minutos).
+- Formulario de reserva de turno:
+  - Validaci√≥n de nombre, tel√©fono, email, obra social y horario.
+  - Evita horarios ocupados consultando a la API.
+
+### Panel administrativo
+
+- Login de profesional (`/login`) con autenticaci√≥n JWT.
+- Dashboard administrativo con acceso a:
+  - Listado de turnos con filtros.
+  - Cambio de estado del turno (Solicitada / Confirmada / Cancelada).
+  - Eliminaci√≥n de turnos.
+- CRUD de obras sociales:
+  - Alta, edici√≥n y baja de obras sociales.
+  - Sincronizado con el selector del formulario p√∫blico.
+
+---
+
+## 9. Estructura principal de carpetas
+
+```text
+Prohealth_Martu/
+  README.md           # Este archivo
+  .env.example        # Config de frontend
+  package.json        # Frontend
+
+  src/                # C√≥digo del frontend (React)
+    components/       # Navbar, Hero, Turnera, InsuranceList, layouts, etc.
+    pages/            # Home, Services, Insurances, Appointments, Login, Admin...
+    hooks/            # useInsurances, useNotifications
+    services/         # apiClient
+    theme/            # Tema MUI
+    utils/            # Helpers (calendario, etc.)
+
+  server/             # Backend Node.js + Express
+    README.md         # README espec√≠fico del backend
+    db/               # Scripts SQL (schema.sql, seed.sql)
+    src/
+      config/         # env, conexi√≥n MySQL
+      controllers/    # Controladores
+      middleware/     # Auth, validaciones, errores
+      routes/         # Rutas /api
+      services/       # L√≥gica de negocio
+      utils/          # Helpers (JWT, asyncHandler, etc.)
+```
+
+---
+
+## 10. Endpoints principales de la API
+
+Base: `http://localhost:4000/api`
+
+**Auth**
+- `POST /auth/login` ‚Äì Login de administrador (devuelve JWT).
+
+**Obras sociales**
+- `GET /insurances` ‚Äì Listado p√∫blico.
+- `POST /insurances` ‚Äì Crear (requiere JWT).
+- `PUT /insurances/:id` ‚Äì Editar (requiere JWT).
+- `DELETE /insurances/:id` ‚Äì Eliminar (requiere JWT).
+
+**Turnos**
+- `GET /appointments` ‚Äì Listado/filtrado.
+- `POST /appointments` ‚Äì Crear turno.
+- `PATCH /appointments/:id/status` ‚Äì Cambiar estado (requiere JWT).
+- `DELETE /appointments/:id` ‚Äì Eliminar turno (requiere JWT).
+
+Header de autenticaci√≥n:
+
+```http
+Authorization: Bearer <token>
+```
+
+---
+
+## 11. Checklist de la entrega
+
+- [x] Frontend y backend instalan sin errores.
+- [x] Base de datos inicializable con `schema.sql` y `seed.sql`.
+- [x] API corriendo en `http://localhost:4000/api`.
+- [x] Frontend corriendo en `http://localhost:3000`.
+- [x] Reserva de turno funcionando (validaciones + horarios ocupados).
+- [x] Login de administrador y panel operativo.
+- [x] CRUD de obras sociales integrado con la app p√∫blica.
+- [x] Dise√±o responsive en p√°ginas principales.
+

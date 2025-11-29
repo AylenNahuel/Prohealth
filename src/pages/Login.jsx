@@ -81,12 +81,7 @@ const Login = () => {
   };
 
   const handleGoHome = () => {
-    const canUseHistory = typeof window !== 'undefined' && window.history.length > 1;
-    if (canUseHistory) {
-      navigate(-1);
-    } else {
-      navigate(fallbackPath);
-    }
+    navigate(fallbackPath, { replace: true });
   };
 
   return (

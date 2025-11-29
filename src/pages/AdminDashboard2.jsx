@@ -176,7 +176,7 @@ const AdminDashboard2 = () => {
           </Button>
         </Stack>
 
-        {/* XS: lista compacta / SM+: tabla */}
+
         {isMobile ? (
           <Stack spacing={1}>
             {loading && (

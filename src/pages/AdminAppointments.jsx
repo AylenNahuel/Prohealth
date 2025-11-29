@@ -32,6 +32,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
 import CheckIcon from '@mui/icons-material/CheckOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
+import CloseIcon from '@mui/icons-material/CloseOutlined';
 import useNotifications from '../hooks/useNotifications';
 import { apiClient } from '../services/apiClient';
 import ConfirmDelete from '../components/ConfirmDelete';
@@ -121,6 +122,19 @@ const AdminAppointments = () => {
     }
   };
 
+  const handleCancel = async (id) => {
+    try {
+      const updated = await apiClient.patch(`/appointments/${id}/status`, { status: 'CANCELADA' });
+      setAppointments((prev) =>
+        prev.map((appointment) => (appointment.id === id ? updated : appointment))
+      );
+      showNotification('Turno cancelado.', 'success');
+    } catch (err) {
+      console.error('AdminAppointments: error cancelling appointment', err);
+      showNotification(err.message || 'No se pudo cancelar el turno.', 'error');
+    }
+  };
+
   const handleDeleteRequest = (appointment) => {
     setDeleteTarget(appointment);
   };
@@ -204,11 +218,13 @@ const AdminAppointments = () => {
         </Typography>
       )}
 
-      {/* ---------- vista XS: tarjetas ---------- */}
+
       {isMobile && (
         <Stack spacing={1.5}>
           {paginatedAppointments.map((a) => {
             const isSolicitada = a.status === 'SOLICITADA';
+            const isCancelada = a.status === 'CANCELADA';
+            const chipColor = isSolicitada ? 'default' : isCancelada ? 'error' : 'success';
             return (
               <Card key={a.id} elevation={3} sx={{ borderRadius: 3 }}>
                 <CardContent>
@@ -220,7 +236,7 @@ const AdminAppointments = () => {
                       <Chip
                         label={a.status}
                         size="small"
-                        color={isSolicitada ? 'default' : 'success'}
+                        color={chipColor}
                         variant={isSolicitada ? 'outlined' : 'filled'}
                       />
                     </Stack>
@@ -257,6 +273,16 @@ const AdminAppointments = () => {
                           <CheckIcon fontSize="small" />
                         </IconButton>
                       )}
+                      {!isCancelada && (
+                        <IconButton
+                          aria-label="Cancelar"
+                          color="warning"
+                          size="small"
+                          onClick={() => handleCancel(a.id)}
+                        >
+                          <CloseIcon fontSize="small" />
+                        </IconButton>
+                      )}
                       <IconButton
                         aria-label="Eliminar"
                         color="error"
@@ -287,7 +313,7 @@ const AdminAppointments = () => {
             </Paper>
           )}
 
-          {/* paginación también para xs */}
+
           <Paper elevation={0} sx={{ mt: 1 }}>
             <TablePagination
               component="div"
@@ -301,7 +327,7 @@ const AdminAppointments = () => {
         </Stack>
       )}
 
-      {/* ---------- vista SM+ : tabla clásica ---------- */}
+
       {isTabletUp && (
         <Paper elevation={3} sx={{ p: { xs: 2, md: 3 }, borderRadius: 3 }}>
           <TableContainer sx={{ overflowX: 'auto' }}>
@@ -325,6 +351,8 @@ const AdminAppointments = () => {
               <TableBody>
                 {paginatedAppointments.map((a) => {
                   const isSolicitada = a.status === 'SOLICITADA';
+                  const isCancelada = a.status === 'CANCELADA';
+                  const chipColor = isSolicitada ? 'default' : isCancelada ? 'error' : 'success';
                   return (
                     <TableRow key={a.id} hover>
                       <TableCell>{a.id}</TableCell>
@@ -339,7 +367,7 @@ const AdminAppointments = () => {
                         <Chip
                           label={a.status}
                           size="small"
-                          color={isSolicitada ? 'default' : 'success'}
+                          color={chipColor}
                           variant={isSolicitada ? 'outlined' : 'filled'}
                         />
                       </TableCell>
@@ -356,6 +384,16 @@ const AdminAppointments = () => {
                               onClick={() => handleConfirm(a.id)}
                             >
                               Confirmar
+                            </Button>
+                          )}
+                          {!isCancelada && (
+                            <Button
+                              variant="outlined"
+                              color="warning"
+                              size="small"
+                              onClick={() => handleCancel(a.id)}
+                            >
+                              Cancelar
                             </Button>
                           )}
                           <Button
