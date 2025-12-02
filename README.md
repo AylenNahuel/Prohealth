@@ -51,8 +51,8 @@ El proyecto está dividido en dos partes:
 
 ```bash
 # Clonar el repositorio
-git clone <URL_DEL_REPO>
-cd Prohealth_Martu
+git clone https://github.com/AylenNahuel/Prohealth.git
+cd Prohealth
 
 # Frontend
 npm install
@@ -99,7 +99,7 @@ JWT_EXPIRATION=1d
 DB_SERVER=localhost
 DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=martucastro
+DB_PASSWORD=tu-password-local
 DB_NAME=ProHealth
 DB_SSL=false
 ```
@@ -116,10 +116,10 @@ Desde la raíz del proyecto:
 cd server
 
 # Crear base y tablas
-mysql -u root -pmartucastro < db/schema.sql
+mysql -u root -p < db/schema.sql
 
 # Cargar datos de ejemplo (obras sociales, admin, turnos)
-mysql -u root -pmartucastro < db/seed.sql
+mysql -u root -p < db/seed.sql
 ```
 
 Esto crea la base `ProHealth` y carga:
@@ -183,7 +183,7 @@ Frontend disponible en: `http://localhost:3000`
 ## 9. Estructura principal de carpetas
 
 ```text
-Prohealth_Martu/
+Prohealth/
   README.md           # Este archivo
   .env.example        # Config de frontend
   package.json        # Frontend
