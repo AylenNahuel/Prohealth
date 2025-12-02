@@ -17,24 +17,41 @@ const getClient = () => {
 const isEmailConfigured = () =>
   Boolean(env.email?.resendApiKey && env.email?.from);
 
+const formatSlotDateTime = (slotISO) => {
+  if (!slotISO) return '-';
+  const date = new Date(slotISO);
+  if (Number.isNaN(date.getTime())) {
+    return slotISO;
+  }
+  const pad = (value) => String(value).padStart(2, '0');
+  const day = pad(date.getDate());
+  const month = pad(date.getMonth() + 1);
+  const year = date.getFullYear();
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  return `${day}/${month}/${year} ${hours}:${minutes} hs`;
+};
+
 const formatAppointmentHtml = (appointment) => `
-  <h1>Nuevo turno solicitado</h1>
+  <h1>Hemos recibido tu solicitud de turno</h1>
+  <p>En breve nos vamos a contactar para confirmarlo.</p>
   <p><strong>Paciente:</strong> ${appointment.patientName}</p>
   <p><strong>Email:</strong> ${appointment.email}</p>
   <p><strong>Teléfono:</strong> ${appointment.phone}</p>
   <p><strong>Obra social:</strong> ${appointment.insuranceName} (${appointment.insuranceId})</p>
-  <p><strong>Fecha y hora (ISO):</strong> ${appointment.slotISO}</p>
+  <p><strong>Fecha y hora:</strong> ${formatSlotDateTime(appointment.slotISO)}</p>
   <p><strong>Notas:</strong> ${appointment.notes || '-'}</p>
 `;
 
 const formatAppointmentText = (appointment) =>
   [
-    'Nuevo turno solicitado',
+    'Hemos recibido tu solicitud de turno.',
+    'En breve nos vamos a contactar para confirmarlo.',
     `Paciente: ${appointment.patientName}`,
     `Email: ${appointment.email}`,
     `Teléfono: ${appointment.phone}`,
     `Obra social: ${appointment.insuranceName} (${appointment.insuranceId})`,
-    `Fecha y hora (ISO): ${appointment.slotISO}`,
+    `Fecha y hora: ${formatSlotDateTime(appointment.slotISO)}`,
     `Notas: ${appointment.notes || '-'}`,
   ].join('\n');
 
@@ -54,7 +71,6 @@ const sendAppointmentNotification = async (appointment) => {
 
   await resend.emails.send({
     from: env.email.from,
-    // Se envía solo al paciente que registró el turno
     to: appointment.email,
     subject,
     html: formatAppointmentHtml(appointment),
@@ -62,27 +78,26 @@ const sendAppointmentNotification = async (appointment) => {
   });
 };
 
-
-
-
 const formatCancellationHtml = (appointment) => `
   <h1>Tu turno fue cancelado</h1>
+  <p>Si necesitás reprogramarlo, podés solicitar un nuevo turno desde la web.</p>
   <p><strong>Paciente:</strong> ${appointment.patientName}</p>
   <p><strong>Email:</strong> ${appointment.email}</p>
   <p><strong>Teléfono:</strong> ${appointment.phone}</p>
   <p><strong>Obra social:</strong> ${appointment.insuranceName} (${appointment.insuranceId})</p>
-  <p><strong>Fecha y hora (ISO):</strong> ${appointment.slotISO}</p>
+  <p><strong>Fecha y hora:</strong> ${formatSlotDateTime(appointment.slotISO)}</p>
   <p><strong>Notas:</strong> ${appointment.notes || '-'}</p>
 `;
 
 const formatCancellationText = (appointment) =>
   [
-    'Tu turno fue cancelado',
+    'Tu turno fue cancelado.',
+    'Si necesitás reprogramarlo, podés solicitar un nuevo turno desde la web.',
     `Paciente: ${appointment.patientName}`,
     `Email: ${appointment.email}`,
     `Teléfono: ${appointment.phone}`,
     `Obra social: ${appointment.insuranceName} (${appointment.insuranceId})`,
-    `Fecha y hora (ISO): ${appointment.slotISO}`,
+    `Fecha y hora: ${formatSlotDateTime(appointment.slotISO)}`,
     `Notas: ${appointment.notes || '-'}`,
   ].join('\n');
 
@@ -111,22 +126,24 @@ const sendAppointmentCancellation = async (appointment) => {
 
 const formatConfirmationHtml = (appointment) => `
   <h1>Tu turno fue confirmado</h1>
+  <p>Te esperamos en nuestro consultorio.</p>
   <p><strong>Paciente:</strong> ${appointment.patientName}</p>
   <p><strong>Email:</strong> ${appointment.email}</p>
   <p><strong>Teléfono:</strong> ${appointment.phone}</p>
   <p><strong>Obra social:</strong> ${appointment.insuranceName} (${appointment.insuranceId})</p>
-  <p><strong>Fecha y hora (ISO):</strong> ${appointment.slotISO}</p>
+  <p><strong>Fecha y hora:</strong> ${formatSlotDateTime(appointment.slotISO)}</p>
   <p><strong>Notas:</strong> ${appointment.notes || '-'}</p>
 `;
 
 const formatConfirmationText = (appointment) =>
   [
-    'Tu turno fue confirmado',
+    'Tu turno fue confirmado.',
+    'Te esperamos en nuestro consultorio.',
     `Paciente: ${appointment.patientName}`,
     `Email: ${appointment.email}`,
     `Teléfono: ${appointment.phone}`,
     `Obra social: ${appointment.insuranceName} (${appointment.insuranceId})`,
-    `Fecha y hora (ISO): ${appointment.slotISO}`,
+    `Fecha y hora: ${formatSlotDateTime(appointment.slotISO)}`,
     `Notas: ${appointment.notes || '-'}`,
   ].join('\n');
 
@@ -153,10 +170,9 @@ const sendAppointmentConfirmation = async (appointment) => {
   });
 };
 
-
-
 module.exports = {
   sendAppointmentNotification,
   sendAppointmentCancellation,
   sendAppointmentConfirmation,
 };
+
