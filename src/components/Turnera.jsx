@@ -55,7 +55,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
 
   return (
     <Stack spacing={3}>
-      {/* Carrusel de días */}
+
       <Box sx={{ overflowX: 'auto', pb: 1 }}>
         <Stack
           direction="row"
@@ -94,7 +94,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
         </Stack>
       </Box>
 
-      {/* Lista de horarios */}
+
       <Box>
         <Typography variant="subtitle1" fontWeight={600} sx={{ mb: 2 }}>
           Horarios disponibles
@@ -103,6 +103,38 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
           {selectedDay?.slots.map((slot) => {
             const isOccupied = occupiedSet.has(slot.iso);
             const isSelected = selectedSlot === slot.iso;
+            const chipStyles = {
+              width: '100%',
+              justifyContent: 'center',
+              borderWidth: 2,
+              borderColor: isSelected
+                ? 'primary.main'
+                : isOccupied
+                ? theme.palette.grey[400]
+                : 'rgba(0,0,0,0.08)',
+              fontWeight: isSelected ? 600 : 500,
+              '&.Mui-disabled': {
+                opacity: 1,
+              },
+              ...(isOccupied && {
+                bgcolor: theme.palette.grey[300],
+                color: theme.palette.grey[700],
+                '& .MuiChip-label': {
+                  color: theme.palette.grey[700],
+                },
+              }),
+              ...(!isOccupied && !isSelected && {
+                bgcolor: 'background.paper',
+              }),
+              ...(isSelected && {
+                '& .MuiChip-label': {
+                  textDecoration: 'none',
+                },
+              }),
+              '& .MuiChip-label': {
+                fontWeight: isSelected ? 600 : 500,
+              },
+            };
             return (
               <Grid item key={slot.iso} xs={6} sm={4} md={2}>
                 <Chip
@@ -112,27 +144,7 @@ const Turnera = ({ value, onPick, occupiedSlots }) => {
                   disabled={isOccupied}
                   color={isSelected ? 'primary' : 'default'}
                   variant={isSelected ? 'filled' : 'outlined'}
-                  sx={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    borderWidth: 2,
-                    borderColor: isSelected
-                      ? 'primary.main'
-                      : isOccupied
-                      ? 'divider'
-                      : 'rgba(0,0,0,0.08)',
-                    fontWeight: isSelected ? 600 : 500,
-                    '&.Mui-disabled': {
-                      opacity: 1,
-                    },
-                    ...(isOccupied && {
-                      bgcolor: 'action.disabledBackground',
-                      color: 'text.disabled',
-                    }),
-                    ...(!isOccupied && !isSelected && {
-                      bgcolor: 'background.paper',
-                    }),
-                  }}
+                  sx={chipStyles}
                   size={isMobile ? 'small' : 'medium'}
                 />
               </Grid>

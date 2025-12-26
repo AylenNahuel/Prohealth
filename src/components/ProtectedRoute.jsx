@@ -3,7 +3,8 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ redirectTo }) => {
   const location = useLocation();
-  const isAuthenticated = localStorage.getItem('auth') === 'true';
+  const token = typeof window !== 'undefined' ? window.localStorage.getItem('authToken') : null;
+  const isAuthenticated = Boolean(token);
 
   if (!isAuthenticated) {
     return <Navigate to={redirectTo} replace state={{ from: location }} />;

@@ -28,7 +28,7 @@ import useInsurances from '../hooks/useInsurances';
 const AdminInsurances2 = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const { insurances, addInsurance, updateInsurance, removeInsurance, existsId } = useInsurances();
+  const { insurances, loading: insurancesLoading, error: insurancesError, addInsurance, updateInsurance, removeInsurance, existsId } = useInsurances();
 
   const [search, setSearch] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -61,26 +61,35 @@ const AdminInsurances2 = () => {
     setConfirmId(id);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     const toDelete = insurances.find((item) => item.id === confirmId);
-    removeInsurance(confirmId);
-    setConfirmId(null);
-    setSnackbar({ open: true, message: `Obra social "${toDelete?.nombre}" eliminada.`, severity: 'success' });
+    try {
+      await removeInsurance(confirmId);
+      setSnackbar({ open: true, message: `Obra social "${toDelete?.nombre}" eliminada.`, severity: 'success' });
+    } catch (err) {
+      setSnackbar({ open: true, message: err.message || 'No se pudo eliminar la obra social.', severity: 'error' });
+    } finally {
+      setConfirmId(null);
+    }
   };
 
-  const handleDialogSubmit = (insurance) => {
-    if (editingInsurance) {
-      updateInsurance(editingInsurance.id, { nombre: insurance.nombre });
-      setSnackbar({ open: true, message: 'Obra social actualizada.', severity: 'success' });
-    } else {
-      if (existsId(insurance.id)) {
-        setSnackbar({ open: true, message: 'El ID ingresado ya existe.', severity: 'error' });
-        return;
+  const handleDialogSubmit = async (insurance) => {
+    try {
+      if (editingInsurance) {
+        await updateInsurance(editingInsurance.id, { nombre: insurance.nombre });
+        setSnackbar({ open: true, message: 'Obra social actualizada.', severity: 'success' });
+      } else {
+        if (existsId(insurance.id)) {
+          setSnackbar({ open: true, message: 'El ID ingresado ya existe.', severity: 'error' });
+          return;
+        }
+        await addInsurance(insurance);
+        setSnackbar({ open: true, message: 'Obra social creada.', severity: 'success' });
       }
-      addInsurance(insurance);
-      setSnackbar({ open: true, message: 'Obra social creada.', severity: 'success' });
+      handleCloseDialog();
+    } catch (err) {
+      setSnackbar({ open: true, message: err.message || 'No se pudo guardar la obra social.', severity: 'error' });
     }
-    handleCloseDialog();
   };
 
   const handleSnackbarClose = (_, reason) => {
@@ -88,8 +97,8 @@ const AdminInsurances2 = () => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
-  const noResults = filteredInsurances.length === 0;
-  const noData = insurances.length === 0;
+  const noResults = !insurancesLoading && filteredInsurances.length === 0;
+  const noData = !insurancesLoading && insurances.length === 0;
 
   return (
     <Box>
@@ -116,8 +125,17 @@ const AdminInsurances2 = () => {
         />
       </Box>
 
+      {insurancesError && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {insurancesError}
+        </Alert>
+      )}
       <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
-        {noResults ? (
+        {insurancesLoading ? (
+          <Typography variant="body2" color="text.secondary">
+            Cargando obras sociales...
+          </Typography>
+        ) : noResults ? (
           <Alert severity={noData ? 'warning' : 'info'}>
             {noData ? 'No hay obras sociales cargadas. Agregá la primera.' : 'No encontramos obras sociales con ese criterio.'}
           </Alert>
@@ -191,4 +209,3 @@ const AdminInsurances2 = () => {
 };
 
 export default AdminInsurances2;
-

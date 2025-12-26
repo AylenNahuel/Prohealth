@@ -1,93 +1,272 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Stitch Design</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#0D6EFD",
-            "primary-light": "#E9F2FF",
-            "background-light": "#F8F9FA",
-            "background-dark": "#101822",
-            "surface-light": "#FFFFFF",
-            "surface-dark": "#1A2431",
-          },
-          fontFamily: {
-            "display": ["Inter"]
-          },
-          borderRadius: {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>ProHealth Admin - Dashboard</title>
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0D6EFD",
+              secondary: "#20C997",
+              "background-light": "#F5F7FB",
+              "background-dark": "#101822",
+              "surface-light": "#FFFFFF",
+              "surface-dark": "#1A2431",
+              "border-light": "#E2E8F0",
+              "border-dark": "#1F2933",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "0.75rem",
+              xl: "1rem",
+              full: "9999px",
+            },
           },
         },
-      },
-    }
-  </script>
-<style>
-    .material-symbols-outlined {
-      font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24
-    }
-  </style>
-</head>
-<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
-<div class="flex h-screen">
-<aside class="flex flex-col w-64 bg-surface-light dark:bg-surface-dark border-r border-gray-200 dark:border-gray-800">
-<div class="flex items-center justify-center h-20 border-b border-gray-200 dark:border-gray-800">
-<h1 class="text-xl font-semibold text-gray-900 dark:text-white">Dr. Mariano Torres</h1>
-</div>
-<nav class="flex-1 px-4 py-6 space-y-2">
-<a class="flex items-center px-4 py-2 text-sm font-medium text-primary bg-primary-light rounded-lg" href="#">
-<span class="material-symbols-outlined mr-3">calendar_month</span>
-          Citas
-        </a>
-<a class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-primary-light/60 dark:hover:bg-primary/20 rounded-lg" href="#">
-<span class="material-symbols-outlined mr-3">corporate_fare</span>
-          Obras Sociales
-        </a>
-</nav>
-<div class="px-4 py-6">
-<a class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-primary-light/60 dark:hover:bg-primary/20 rounded-lg" href="#">
-<span class="material-symbols-outlined mr-3">logout</span>
-          Logout
-        </a>
-</div>
-</aside>
-<main class="flex-1 flex flex-col">
-<header class="flex items-center justify-between h-20 px-8 border-b border-gray-200 dark:border-gray-800 bg-surface-light dark:bg-surface-dark">
-<h2 class="text-3xl font-bold text-gray-900 dark:text-white">Resumen Semanal</h2>
-</header>
-<div class="flex-1 p-8">
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-<div class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-800 rounded-xl p-6 flex flex-col justify-between">
-<div>
-<h3 class="text-lg font-medium text-gray-600 dark:text-gray-400">Turnos Solicitados</h3>
-<p class="mt-2 text-4xl font-bold text-gray-900 dark:text-white">15</p>
-</div>
-</div>
-<div class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-800 rounded-xl p-6 flex flex-col justify-between">
-<div>
-<h3 class="text-lg font-medium text-gray-600 dark:text-gray-400">Turnos Confirmados</h3>
-<p class="mt-2 text-4xl font-bold text-gray-900 dark:text-white">12</p>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div>
+      };
+    </script>
 
-</body></html>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-background-light font-display text-slate-800 dark:bg-background-dark dark:text-slate-100"
+  >
+    <div class="flex min-h-screen">
+      <!-- SIDEBAR -->
+      <aside
+        class="flex w-64 flex-col border-r border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark"
+      >
+        <!-- Logo + nombre -->
+        <div
+          class="flex flex-col gap-1 border-b border-border-light px-6 py-5 dark:border-border-dark"
+        >
+          <span class="text-sm font-semibold text-primary">ProHealth Admin</span>
+          <span class="text-xs text-slate-500 dark:text-slate-400"
+            >Gestión integral de turnos</span
+          >
+        </div>
+
+        <!-- Navegación -->
+        <nav class="flex-1 px-3 py-4 space-y-1">
+          <a
+            href="#"
+            class="flex items-center gap-3 rounded-lg bg-primary/10 px-3 py-2 text-sm font-medium text-primary"
+          >
+            <span class="material-symbols-outlined text-base"> dashboard </span>
+            <span>Dashboard</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-primary/10 dark:text-slate-200"
+          >
+            <span class="material-symbols-outlined text-base"> calendar_month </span>
+            <span>Citas</span>
+          </a>
+
+          <a
+            href="#"
+            class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-primary/10 dark:text-slate-200"
+          >
+            <span class="material-symbols-outlined text-base"> corporate_fare </span>
+            <span>Obras Sociales</span>
+          </a>
+        </nav>
+
+        <!-- Cerrar sesión -->
+        <div class="border-t border-border-light px-3 py-4 dark:border-border-dark">
+          <button
+            class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-500 hover:bg-red-50"
+          >
+            <span class="material-symbols-outlined text-base"> logout </span>
+            <span>Cerrar sesión</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <main class="flex flex-1 flex-col">
+        <!-- Header -->
+        <header
+          class="flex items-center justify-between border-b border-border-light bg-surface-light px-10 py-6 dark:border-border-dark dark:bg-surface-dark"
+        >
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+              Resumen operativo
+            </h1>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              Datos actualizados de tus turnos para tomar acción rápidamente.
+            </p>
+          </div>
+
+          <div class="flex gap-3">
+            <button
+              class="rounded-lg border border-primary bg-white px-4 py-2 text-sm font-medium text-primary hover:bg-primary/5 dark:bg-surface-dark"
+            >
+              Gestionar citas
+            </button>
+            <button
+              class="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90"
+            >
+              Obras sociales
+            </button>
+          </div>
+        </header>
+
+        <!-- CONTENIDO -->
+        <section class="flex-1 overflow-y-auto px-10 py-8">
+          <!-- Tarjetas de resumen -->
+          <div
+            class="mb-8 grid gap-6 md:grid-cols-3"
+          >
+            <!-- Solicitadas -->
+            <div
+              class="flex items-center gap-4 rounded-2xl bg-surface-light p-6 shadow-sm ring-1 ring-border-light dark:bg-surface-dark dark:ring-border-dark"
+            >
+              <div
+                class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"
+              >
+                <span class="material-symbols-outlined"> calendar_today </span>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-slate-900 dark:text-white">
+                  1
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                  Solicitadas (semana)
+                </p>
+              </div>
+            </div>
+
+            <!-- Confirmadas -->
+            <div
+              class="flex items-center gap-4 rounded-2xl bg-surface-light p-6 shadow-sm ring-1 ring-border-light dark:bg-surface-dark dark:ring-border-dark"
+            >
+              <div
+                class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-500"
+              >
+                <span class="material-symbols-outlined"> task_alt </span>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-slate-900 dark:text-white">
+                  0
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                  Confirmadas (semana)
+                </p>
+              </div>
+            </div>
+
+            <!-- Próximas hoy -->
+            <div
+              class="flex items-center gap-4 rounded-2xl bg-surface-light p-6 shadow-sm ring-1 ring-border-light dark:bg-surface-dark dark:ring-border-dark"
+            >
+              <div
+                class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-500"
+              >
+                <span class="material-symbols-outlined"> event_upcoming </span>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-slate-900 dark:text-white">
+                  0
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                  Próximas (hoy)
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Próximos turnos -->
+          <div
+            class="rounded-2xl bg-surface-light shadow-sm ring-1 ring-border-light dark:bg-surface-dark dark:ring-border-dark"
+          >
+            <div
+              class="flex items-center justify-between border-b border-border-light px-6 py-4 dark:border-border-dark"
+            >
+              <div>
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
+                  Próximos turnos
+                </h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                  Los próximos turnos ordenados por fecha.
+                </p>
+              </div>
+
+              <button
+                class="text-sm font-medium text-primary hover:text-primary/80"
+              >
+                Ver todas
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-border-light">
+                <thead class="bg-slate-50 dark:bg-surface-dark/60">
+                  <tr class="text-left text-xs font-medium uppercase text-slate-500">
+                    <th class="px-6 py-3">Paciente</th>
+                    <th class="px-6 py-3">Obra social</th>
+                    <th class="px-6 py-3">Fecha/Hora</th>
+                    <th class="px-6 py-3">Estado</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-border-light text-sm">
+                  <tr class="bg-white/60 dark:bg-surface-dark">
+                    <td class="whitespace-nowrap px-6 py-3 text-slate-800 dark:text-slate-100">
+                      martina
+                    </td>
+                    <td class="whitespace-nowrap px-6 py-3">OSDE</td>
+                    <td class="whitespace-nowrap px-6 py-3">
+                      01/12/2025 11:00
+                    </td>
+                    <td class="whitespace-nowrap px-6 py-3">
+                      <span
+                        class="inline-flex items-center rounded-full bg-primary/5 px-3 py-1 text-xs font-semibold text-primary"
+                      >
+                        SOLICITADA
+                      </span>
+                    </td>
+                  </tr>
+                  <!-- Más filas podrían ir acá -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body></html>

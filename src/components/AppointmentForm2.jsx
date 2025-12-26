@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Turnera from './Turnera';
 import useInsurances from '../hooks/useInsurances';
 import useNotifications from '../hooks/useNotifications';
-import { OCCUPIED_APPOINTMENTS } from '../mocks/appointments.data';
+import { apiClient } from '../services/apiClient';
 
 const initialValues = {
   patientName: '',
@@ -15,18 +15,43 @@ const initialValues = {
 };
 
 const AppointmentForm2 = () => {
-  const { insurances } = useInsurances();
+  const { insurances, loading: insurancesLoading, error: insurancesError } = useInsurances();
   const { showNotification } = useNotifications();
   const [formValues, setFormValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [selectedSlot, setSelectedSlot] = useState('');
-  const [occupiedSlots] = useState(() => OCCUPIED_APPOINTMENTS);
+  const [occupiedSlots, setOccupiedSlots] = useState([]);
+  const [slotsLoading, setSlotsLoading] = useState(false);
+  const [slotsError, setSlotsError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  const loadOccupiedSlots = useCallback(async () => {
+    setSlotsLoading(true);
+    setSlotsError('');
+    try {
+      
+      const appointments = await apiClient.get('/appointments');
+      const busy = appointments
+        .filter((appointment) => appointment.status !== 'CANCELADA')
+        .map((appointment) => appointment.slotISO);
+      setOccupiedSlots(busy);
+    } catch (err) {
+      console.error('AppointmentForm: error fetching occupied slots', err);
+      setSlotsError(err.message || 'No se pudo cargar la disponibilidad.');
+    } finally {
+      setSlotsLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (formValues.insurance && !insurances.some((i) => i.id === formValues.insurance)) {
       setFormValues((prev) => ({ ...prev, insurance: '' }));
     }
   }, [insurances, formValues.insurance]);
+
+  useEffect(() => {
+    loadOccupiedSlots();
+  }, [loadOccupiedSlots]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -58,12 +83,28 @@ const AppointmentForm2 = () => {
     [selectedSlot]
   );
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!validate()) return;
-    showNotification('Turno solicitado. Recibirás un correo de confirmación.', 'success');
-    setFormValues(initialValues);
-    setSelectedSlot('');
+    setSubmitting(true);
+    try {
+      await apiClient.post('/appointments', {
+        patientName: formValues.patientName.trim(),
+        phone: formValues.phone.trim(),
+        email: formValues.email.trim(),
+        insuranceId: formValues.insurance,
+        slotISO: selectedSlot,
+      });
+      showNotification('Turno solicitado. Recibirás un correo de confirmación.', 'success');
+      setFormValues(initialValues);
+      setSelectedSlot('');
+      await loadOccupiedSlots();
+    } catch (err) {
+      console.error('AppointmentForm: error creating appointment', err);
+      showNotification(err.message || 'No se pudo reservar el turno.', 'error');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const hasInsurances = insurances.length > 0;
@@ -81,7 +122,17 @@ const AppointmentForm2 = () => {
         </Box>
 
         <Box sx={{ mb: 4 }}>
+          {slotsError && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {slotsError}
+            </Alert>
+          )}
           <Turnera value={selectedSlot} onPick={setSelectedSlot} occupiedSlots={occupiedSlots} />
+          {slotsLoading && (
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+              Actualizando disponibilidad...
+            </Typography>
+          )}
           {errors.slot && (
             <Typography variant="caption" color="error" sx={{ mt: 1 }}>
               {errors.slot}
@@ -131,7 +182,12 @@ const AppointmentForm2 = () => {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth required error={Boolean(errors.insurance)}>
+            <FormControl
+              fullWidth
+              required
+              error={Boolean(errors.insurance)}
+              sx={{ minWidth: 0 }}
+            >
               <InputLabel id="appointment-insurance-label">Obra social</InputLabel>
               <Select
                 labelId="appointment-insurance-label"
@@ -141,6 +197,15 @@ const AppointmentForm2 = () => {
                 onChange={handleChange}
                 inputProps={{ 'aria-label': 'Obra social' }}
                 disabled={!hasInsurances}
+                sx={{
+                  mt: 0.5,
+                  width: '100%',
+                  '& .MuiSelect-select': {
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                  },
+                }}
               >
                 {insurances.map((insurance) => (
                   <MenuItem key={insurance.id} value={insurance.id}>
@@ -154,17 +219,34 @@ const AppointmentForm2 = () => {
                 </Typography>
               )}
             </FormControl>
-            {!hasInsurances && (
+            {!hasInsurances && !insurancesLoading && (
               <Alert severity="warning" sx={{ mt: 1 }}>
                 No hay obras sociales cargadas.
               </Alert>
+            )}
+            {insurancesError && (
+              <Alert severity="error" sx={{ mt: 1 }}>
+                {insurancesError}
+              </Alert>
+            )}
+            {insurancesLoading && (
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                Cargando obras sociales...
+              </Typography>
             )}
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Horario elegido" value={selectedSlotLabel} InputProps={{ readOnly: true }} placeholder="Seleccioná un horario en la turnera" />
           </Grid>
           <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" size="large" fullWidth disabled={!hasInsurances}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+              disabled={!hasInsurances || submitting || insurancesLoading}
+            >
               Reservar turno
             </Button>
           </Grid>

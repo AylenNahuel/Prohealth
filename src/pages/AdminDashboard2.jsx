@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import dayjs from 'dayjs';
@@ -24,8 +24,8 @@ import {
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonthOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleOutline';
 import TodayIcon from '@mui/icons-material/TodayOutlined';
-import { APPOINTMENT_MOCKS } from '../mocks/appointments.data';
 import { useTheme } from '@mui/material/styles';
+import { apiClient } from '../services/apiClient';
 
 const iconMap = {
   solicitadas: CalendarMonthIcon,
@@ -33,23 +33,24 @@ const iconMap = {
   proximas: TodayIcon,
 };
 
-const computeMetrics = () => {
+const computeMetrics = (appointments) => {
   const now = dayjs();
   const weekLimit = now.add(7, 'day').endOf('day');
 
-  const solicitadasSemana = APPOINTMENT_MOCKS.filter(({ estado, slotISO }) => {
+  const solicitadasSemana = appointments.filter(({ status, slotISO }) => {
     const slot = dayjs(slotISO);
-    return estado === 'SOLICITADA' && slot.isSameOrAfter(now) && slot.isBefore(weekLimit);
+    return status === 'SOLICITADA' && slot.isSameOrAfter(now) && slot.isBefore(weekLimit);
   }).length;
 
-  const confirmadasSemana = APPOINTMENT_MOCKS.filter(({ estado, slotISO }) => {
+  const confirmadasSemana = appointments.filter(({ status, slotISO }) => {
     const slot = dayjs(slotISO);
-    return estado === 'CONFIRMADA' && slot.isSameOrAfter(now) && slot.isBefore(weekLimit);
+    return status === 'CONFIRMADA' && slot.isSameOrAfter(now) && slot.isBefore(weekLimit);
   }).length;
 
-  const proximasHoy = APPOINTMENT_MOCKS.filter(({ slotISO }) => dayjs(slotISO).isSame(now, 'day')).length;
+  const proximasHoy = appointments.filter(({ slotISO }) => dayjs(slotISO).isSame(now, 'day')).length;
 
-  const proximas = APPOINTMENT_MOCKS.filter(({ slotISO }) => dayjs(slotISO).isSameOrAfter(now))
+  const proximas = appointments
+    .filter(({ slotISO }) => dayjs(slotISO).isSameOrAfter(now))
     .sort((a, b) => dayjs(a.slotISO).diff(dayjs(b.slotISO)))
     .slice(0, 5);
 
@@ -60,8 +61,32 @@ const AdminDashboard2 = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // xs
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const { solicitadasSemana, confirmadasSemana, proximasHoy, proximas } = useMemo(() => computeMetrics(), []);
+  const fetchAppointments = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await apiClient.get('/appointments');
+      setAppointments(data);
+    } catch (err) {
+      console.error('AdminDashboard: error fetching appointments', err);
+      setError(err.message || 'No se pudo cargar el resumen.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAppointments();
+  }, [fetchAppointments]);
+
+  const { solicitadasSemana, confirmadasSemana, proximasHoy, proximas } = useMemo(
+    () => computeMetrics(appointments),
+    [appointments]
+  );
 
   const stats = [
     { key: 'solicitadas', label: 'Solicitadas (semana)', value: solicitadasSemana, color: 'primary' },
@@ -90,6 +115,11 @@ const AdminDashboard2 = () => {
         </Stack>
       </Stack>
 
+      {error && (
+        <Typography variant="body2" color="error" sx={{ mb: 2 }}>
+          {error}
+        </Typography>
+      )}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {stats.map(({ key, label, value, color }) => {
           const Icon = iconMap[key];
@@ -111,7 +141,7 @@ const AdminDashboard2 = () => {
                     </Avatar>
                     <Box>
                       <Typography variant="h3" fontWeight={700}>
-                        {value}
+                        {loading ? '-' : value}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         {label}
@@ -146,29 +176,35 @@ const AdminDashboard2 = () => {
           </Button>
         </Stack>
 
-        {/* XS: lista compacta / SM+: tabla */}
+
         {isMobile ? (
           <Stack spacing={1}>
-            {proximas.map((a) => (
-              <Card key={a.id} elevation={2} sx={{ borderRadius: 3 }}>
-                <CardContent>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    {a.nombre}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {dayjs(a.slotISO).format('DD/MM/YYYY HH:mm')}
-                  </Typography>
-                  <Chip
-                    sx={{ mt: 1 }}
-                    label={a.estado}
-                    size="small"
-                    color={a.estado === 'CONFIRMADA' ? 'success' : 'default'}
-                    variant={a.estado === 'CONFIRMADA' ? 'filled' : 'outlined'}
-                  />
-                </CardContent>
-              </Card>
-            ))}
-            {proximas.length === 0 && (
+            {loading && (
+              <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                Cargando próximos turnos...
+              </Typography>
+            )}
+            {!loading &&
+              proximas.map((a) => (
+                <Card key={a.id} elevation={2} sx={{ borderRadius: 3 }}>
+                  <CardContent>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      {a.patientName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {dayjs(a.slotISO).format('DD/MM/YYYY HH:mm')}
+                    </Typography>
+                    <Chip
+                      sx={{ mt: 1 }}
+                      label={a.status}
+                      size="small"
+                      color={a.status === 'CONFIRMADA' ? 'success' : 'default'}
+                      variant={a.status === 'CONFIRMADA' ? 'filled' : 'outlined'}
+                    />
+                  </CardContent>
+                </Card>
+              ))}
+            {!loading && proximas.length === 0 && (
               <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
                 No hay turnos próximos programados.
               </Typography>
@@ -186,22 +222,32 @@ const AdminDashboard2 = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {proximas.map((a) => (
-                  <TableRow key={a.id} hover>
-                    <TableCell>{a.nombre}</TableCell>
-                    <TableCell>{a.obra}</TableCell>
-                    <TableCell>{dayjs(a.slotISO).format('DD/MM/YYYY HH:mm')}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={a.estado}
-                        size="small"
-                        color={a.estado === 'CONFIRMADA' ? 'success' : 'default'}
-                        variant={a.estado === 'CONFIRMADA' ? 'filled' : 'outlined'}
-                      />
+                {loading && (
+                  <TableRow>
+                    <TableCell colSpan={4} align="center">
+                      <Typography variant="body2" color="text.secondary">
+                        Cargando próximos turnos...
+                      </Typography>
                     </TableCell>
                   </TableRow>
-                ))}
-                {proximas.length === 0 && (
+                )}
+                {!loading &&
+                  proximas.map((a) => (
+                    <TableRow key={a.id} hover>
+                      <TableCell>{a.patientName}</TableCell>
+                      <TableCell>{a.insuranceName}</TableCell>
+                      <TableCell>{dayjs(a.slotISO).format('DD/MM/YYYY HH:mm')}</TableCell>
+                      <TableCell>
+                        <Chip
+                          label={a.status}
+                          size="small"
+                          color={a.status === 'CONFIRMADA' ? 'success' : 'default'}
+                          variant={a.status === 'CONFIRMADA' ? 'filled' : 'outlined'}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                {!loading && proximas.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={4} align="center">
                       <Typography variant="body2" color="text.secondary">

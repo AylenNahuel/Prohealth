@@ -1,20 +1,9 @@
 import { useEffect, useState } from 'react';
-import {
-  Alert,
-  Box,
-  Button,
-  Link,
-  Snackbar,
-  Stack,
-  TextField,
-} from '@mui/material';
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { Alert, Box, Button, Snackbar, Stack, TextField } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBackOutlined';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AuthCard from '../components/AuthCard';
-
-const CREDENTIALS = {
-  email: 'admin@demo.com',
-  password: 'Admin123!',
-};
+import { apiClient } from '../services/apiClient';
 
 const initialValues = {
   email: '',
@@ -27,9 +16,11 @@ const Login = () => {
   const [formValues, setFormValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('Credenciales inválidas.');
+  const fallbackPath = location.state?.from?.pathname || '/';
 
   useEffect(() => {
-    if (localStorage.getItem('auth') === 'true') {
+    if (localStorage.getItem('authToken')) {
       navigate('/admin', { replace: true });
     }
   }, [navigate]);
@@ -67,14 +58,19 @@ const Login = () => {
     const email = formValues.email.trim();
     const password = formValues.password;
 
-    if (email === CREDENTIALS.email && password === CREDENTIALS.password) {
-      localStorage.setItem('auth', 'true');
-      const redirectPath = location.state?.from?.pathname || '/admin';
-      navigate(redirectPath, { replace: true });
-      return;
-    }
-
-    setSnackbarOpen(true);
+    apiClient
+      .post('/auth/login', { email, password }, { auth: false })
+      .then((data) => {
+        apiClient.setToken(data.token);
+        localStorage.setItem('auth', 'true');
+        localStorage.setItem('authUser', JSON.stringify(data.user));
+        const redirectPath = location.state?.from?.pathname || '/admin';
+        navigate(redirectPath, { replace: true });
+      })
+      .catch((error) => {
+        setSnackbarMessage(error.message || 'Credenciales inválidas.');
+        setSnackbarOpen(true);
+      });
   };
 
   const handleSnackbarClose = (_, reason) => {
@@ -82,6 +78,10 @@ const Login = () => {
       return;
     }
     setSnackbarOpen(false);
+  };
+
+  const handleGoHome = () => {
+    navigate(fallbackPath, { replace: true });
   };
 
   return (
@@ -97,10 +97,14 @@ const Login = () => {
         py: 6,
       }}
     >
-      <AuthCard
-        title="Acceso profesional"
-        subtitle="Ingrese con sus credenciales para administrar turnos y obras sociales."
-      >
+      <Stack spacing={2} sx={{ width: '100%', maxWidth: 460 }}>
+        <Button onClick={handleGoHome} startIcon={<ArrowBackIcon />} sx={{ alignSelf: 'flex-start' }}>
+          Volver al inicio
+        </Button>
+        <AuthCard
+          title="Acceso profesional"
+          subtitle="Ingrese con sus credenciales para administrar turnos y obras sociales."
+        >
         <Stack component="form" spacing={3} onSubmit={handleSubmit} noValidate>
           <TextField
             label="Email"
@@ -129,16 +133,9 @@ const Login = () => {
           <Button type="submit" variant="contained" color="primary" size="large">
             Ingresar
           </Button>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Link component={RouterLink} to="/" underline="hover" color="primary">
-              Volver al inicio
-            </Link>
-            <Link component="button" type="button" underline="hover" color="text.secondary" sx={{ cursor: 'pointer' }}>
-              Olvidé mi contraseña
-            </Link>
-          </Stack>
         </Stack>
-      </AuthCard>
+        </AuthCard>
+      </Stack>
 
       <Snackbar
         open={snackbarOpen}
@@ -147,7 +144,7 @@ const Login = () => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert severity="error" variant="filled" onClose={handleSnackbarClose}>
-          Credenciales inválidas.
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </Box>

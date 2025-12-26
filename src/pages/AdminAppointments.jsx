@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
   Box,
@@ -31,8 +31,11 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
 import CheckIcon from '@mui/icons-material/CheckOutlined';
+import DeleteIcon from '@mui/icons-material/DeleteOutline';
+import CloseIcon from '@mui/icons-material/CloseOutlined';
 import useNotifications from '../hooks/useNotifications';
-import { APPOINTMENT_MOCKS } from '../mocks/appointments.data';
+import { apiClient } from '../services/apiClient';
+import ConfirmDelete from '../components/ConfirmDelete';
 
 const columns = [
   { id: 'id', label: 'ID' },
@@ -52,11 +55,33 @@ const AdminAppointments = () => {
   const isTabletUp = useMediaQuery(theme.breakpoints.up('sm')); // sm+
   const { showNotification } = useNotifications();
 
-  const [appointments, setAppointments] = useState(APPOINTMENT_MOCKS);
+  const [appointments, setAppointments] = useState([]);
   const [search, setSearch] = useState('');
   const [order, setOrder] = useState('asc');
   const [page, setPage] = useState(0);
   const [detail, setDetail] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const fetchAppointments = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await apiClient.get('/appointments');
+      setAppointments(data);
+    } catch (err) {
+      console.error('AdminAppointments: error fetching appointments', err);
+      setError(err.message || 'No se pudo cargar la lista de turnos.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAppointments();
+  }, [fetchAppointments]);
 
   const handleRequestSort = () => {
     setOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
@@ -65,8 +90,8 @@ const AdminAppointments = () => {
   const filteredAppointments = useMemo(() => {
     const term = search.trim().toLowerCase();
     if (!term) return appointments;
-    return appointments.filter(({ nombre, email }) =>
-      nombre.toLowerCase().includes(term) || email.toLowerCase().includes(term)
+    return appointments.filter(({ patientName, email }) =>
+      patientName.toLowerCase().includes(term) || email.toLowerCase().includes(term)
     );
   }, [appointments, search]);
 
@@ -86,20 +111,63 @@ const AdminAppointments = () => {
 
   const handleChangePage = (_, newPage) => setPage(newPage);
 
-  const handleConfirm = (id) => {
-    setAppointments((prev) =>
-      prev.map((appointment) =>
-        appointment.id === id ? { ...appointment, estado: 'CONFIRMADA' } : appointment
-      )
-    );
-    showNotification('Cita confirmada. Se ha enviado correo al paciente.', 'success');
+  const handleConfirm = async (id) => {
+    try {
+      const updated = await apiClient.patch(`/appointments/${id}/status`, { status: 'CONFIRMADA' });
+      setAppointments((prev) => prev.map((appointment) => (appointment.id === id ? updated : appointment)));
+      showNotification('Cita confirmada. Se ha enviado correo al paciente.', 'success');
+    } catch (err) {
+      console.error('AdminAppointments: error confirming appointment', err);
+      showNotification(err.message || 'No se pudo confirmar el turno.', 'error');
+    }
+  };
+
+  const handleCancel = async (id) => {
+    try {
+      const updated = await apiClient.patch(`/appointments/${id}/status`, { status: 'CANCELADA' });
+      setAppointments((prev) =>
+        prev.map((appointment) => (appointment.id === id ? updated : appointment))
+      );
+      showNotification('Turno cancelado.', 'success');
+    } catch (err) {
+      console.error('AdminAppointments: error cancelling appointment', err);
+      showNotification(err.message || 'No se pudo cancelar el turno.', 'error');
+    }
+  };
+
+  const handleDeleteRequest = (appointment) => {
+    setDeleteTarget(appointment);
+  };
+
+  const handleDeleteCancel = () => {
+    if (deleting) return;
+    setDeleteTarget(null);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteTarget || deleting) return;
+    setDeleting(true);
+    try {
+      await apiClient.delete(`/appointments/${deleteTarget.id}`);
+      setAppointments((prev) => prev.filter((appointment) => appointment.id !== deleteTarget.id));
+      if (detail?.id === deleteTarget.id) {
+        setDetail(null);
+      }
+      showNotification('Turno eliminado.', 'success');
+      setDeleteTarget(null);
+    } catch (err) {
+      console.error('AdminAppointments: error deleting appointment', err);
+      showNotification(err.message || 'No se pudo eliminar el turno.', 'error');
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const formatSlot = (isoDate) => dayjs(isoDate).format('DD/MM/YYYY HH:mm');
 
-  const resultsLabel = `${filteredAppointments.length} resultado${
-    filteredAppointments.length === 1 ? '' : 's'
-  }`;
+  const resultsLabel = loading
+    ? 'Cargando turnos...'
+    : `${filteredAppointments.length} resultado${filteredAppointments.length === 1 ? '' : 's'}`;
 
   return (
     <Box>
@@ -144,12 +212,19 @@ const AdminAppointments = () => {
           </Typography>
         </Stack>
       </Box>
+      {error && (
+        <Typography variant="body2" color="error" sx={{ mb: 2 }}>
+          {error}
+        </Typography>
+      )}
 
-      {/* ---------- vista XS: tarjetas ---------- */}
+
       {isMobile && (
         <Stack spacing={1.5}>
           {paginatedAppointments.map((a) => {
-            const isSolicitada = a.estado === 'SOLICITADA';
+            const isSolicitada = a.status === 'SOLICITADA';
+            const isCancelada = a.status === 'CANCELADA';
+            const chipColor = isSolicitada ? 'default' : isCancelada ? 'error' : 'success';
             return (
               <Card key={a.id} elevation={3} sx={{ borderRadius: 3 }}>
                 <CardContent>
@@ -159,17 +234,17 @@ const AdminAppointments = () => {
                         {a.id}
                       </Typography>
                       <Chip
-                        label={a.estado}
+                        label={a.status}
                         size="small"
-                        color={isSolicitada ? 'default' : 'success'}
+                        color={chipColor}
                         variant={isSolicitada ? 'outlined' : 'filled'}
                       />
                     </Stack>
 
-                    <Typography variant="h6" fontWeight={600}>{a.nombre}</Typography>
+                    <Typography variant="h6" fontWeight={600}>{a.patientName}</Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                      {a.telefono}
+                      {a.phone}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {a.email}
@@ -178,7 +253,7 @@ const AdminAppointments = () => {
                     <Divider />
 
                     <Typography variant="body2" color="text.secondary">
-                      Obra social: {a.obra}
+                      Obra social: {a.insuranceName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Fecha/Hora: {formatSlot(a.slotISO)}
@@ -198,6 +273,24 @@ const AdminAppointments = () => {
                           <CheckIcon fontSize="small" />
                         </IconButton>
                       )}
+                      {!isCancelada && (
+                        <IconButton
+                          aria-label="Cancelar"
+                          color="warning"
+                          size="small"
+                          onClick={() => handleCancel(a.id)}
+                        >
+                          <CloseIcon fontSize="small" />
+                        </IconButton>
+                      )}
+                      <IconButton
+                        aria-label="Eliminar"
+                        color="error"
+                        size="small"
+                        onClick={() => handleDeleteRequest(a)}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -205,7 +298,14 @@ const AdminAppointments = () => {
             );
           })}
 
-          {paginatedAppointments.length === 0 && (
+          {loading && paginatedAppointments.length === 0 && (
+            <Paper elevation={3} sx={{ p: 2, borderRadius: 3, textAlign: 'center' }}>
+              <Typography variant="body2" color="text.secondary">
+                Cargando turnos...
+              </Typography>
+            </Paper>
+          )}
+          {!loading && paginatedAppointments.length === 0 && (
             <Paper elevation={3} sx={{ p: 2, borderRadius: 3, textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary">
                 No encontramos turnos con ese criterio.
@@ -213,7 +313,7 @@ const AdminAppointments = () => {
             </Paper>
           )}
 
-          {/* paginación también para xs */}
+
           <Paper elevation={0} sx={{ mt: 1 }}>
             <TablePagination
               component="div"
@@ -227,7 +327,7 @@ const AdminAppointments = () => {
         </Stack>
       )}
 
-      {/* ---------- vista SM+ : tabla clásica ---------- */}
+
       {isTabletUp && (
         <Paper elevation={3} sx={{ p: { xs: 2, md: 3 }, borderRadius: 3 }}>
           <TableContainer sx={{ overflowX: 'auto' }}>
@@ -250,22 +350,24 @@ const AdminAppointments = () => {
               </TableHead>
               <TableBody>
                 {paginatedAppointments.map((a) => {
-                  const isSolicitada = a.estado === 'SOLICITADA';
+                  const isSolicitada = a.status === 'SOLICITADA';
+                  const isCancelada = a.status === 'CANCELADA';
+                  const chipColor = isSolicitada ? 'default' : isCancelada ? 'error' : 'success';
                   return (
                     <TableRow key={a.id} hover>
                       <TableCell>{a.id}</TableCell>
                       <TableCell sx={{ maxWidth: 220, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {a.nombre}
+                        {a.patientName}
                       </TableCell>
-                      <TableCell>{a.telefono}</TableCell>
+                      <TableCell>{a.phone}</TableCell>
                       <TableCell>{a.email}</TableCell>
-                      <TableCell>{a.obra}</TableCell>
+                      <TableCell>{a.insuranceName}</TableCell>
                       <TableCell>{formatSlot(a.slotISO)}</TableCell>
                       <TableCell>
                         <Chip
-                          label={a.estado}
+                          label={a.status}
                           size="small"
-                          color={isSolicitada ? 'default' : 'success'}
+                          color={chipColor}
                           variant={isSolicitada ? 'outlined' : 'filled'}
                         />
                       </TableCell>
@@ -284,12 +386,39 @@ const AdminAppointments = () => {
                               Confirmar
                             </Button>
                           )}
+                          {!isCancelada && (
+                            <Button
+                              variant="outlined"
+                              color="warning"
+                              size="small"
+                              onClick={() => handleCancel(a.id)}
+                            >
+                              Cancelar
+                            </Button>
+                          )}
+                          <Button
+                            variant="outlined"
+                            color="error"
+                            size="small"
+                            onClick={() => handleDeleteRequest(a)}
+                          >
+                            Eliminar
+                          </Button>
                         </Stack>
                       </TableCell>
                     </TableRow>
                   );
                 })}
-                {paginatedAppointments.length === 0 && (
+                {loading && paginatedAppointments.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={8} align="center">
+                      <Typography variant="body2" color="text.secondary">
+                        Cargando turnos...
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+                {!loading && paginatedAppointments.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={8} align="center">
                       <Typography variant="body2" color="text.secondary">
@@ -319,12 +448,12 @@ const AdminAppointments = () => {
           <DialogContent dividers>
             <Typography variant="subtitle2">Paciente</Typography>
             <Typography variant="body1" sx={{ mb: 2 }}>
-              {detail.nombre}
+              {detail.patientName}
             </Typography>
 
             <Typography variant="subtitle2">Contacto</Typography>
             <Typography variant="body2" color="text.secondary">
-              Teléfono: {detail.telefono}
+              Teléfono: {detail.phone}
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               Email: {detail.email}
@@ -332,13 +461,13 @@ const AdminAppointments = () => {
 
             <Typography variant="subtitle2">Turno</Typography>
             <Typography variant="body2" color="text.secondary">
-              Obra social: {detail.obra}
+              Obra social: {detail.insuranceName}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Fecha y hora: {formatSlot(detail.slotISO)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Estado: {detail.estado}
+              Estado: {detail.status}
             </Typography>
           </DialogContent>
         )}
@@ -346,6 +475,18 @@ const AdminAppointments = () => {
           <Button onClick={() => setDetail(null)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
+
+      <ConfirmDelete
+        open={Boolean(deleteTarget)}
+        onCancel={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        title="Eliminar turno"
+        description={
+          deleteTarget
+            ? `¿Confirmás eliminar el turno de ${deleteTarget.patientName} (${formatSlot(deleteTarget.slotISO)})?`
+            : ''
+        }
+      />
     </Box>
   );
 };
